@@ -1,0 +1,10 @@
+# R
+.Rhistory
+.Rapp.history
+.RData
+.Ruserdata
+.Rproj.user/
+*.Rproj
+# Outputs
+README.html
+.DS_Store
