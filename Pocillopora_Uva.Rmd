@@ -39,6 +39,7 @@ This file analyzes the changes in S/H cell ratio (bleaching) in *Pocillopora* sp
           panel.grid.major.x = element_blank(),
           panel.grid.minor.x = element_blank(),
           panel.grid.minor.y = element_blank(),
+          axis.line = element_line(colour = "black"),
           legend.box.background = element_rect(),
           panel.background =element_rect(fill = NA, color = "black")
           )+
@@ -683,21 +684,31 @@ Figure_4<-grid.arrange(CH_Com2, DH_Com2,nrow=2)
 Community classification by ITS2 dominant profile in 2014
 
 ```{r}
-  # Add initial (2014) ITS2 profiles
-    ITS2_C_a<-data.frame("Colony"=c("256-1", "257-1", "260-1", "262-1", "330-1", "340-1A"), 
-                         "ITS2_14"="C_a")
-    # ITS2_C_b<-data.frame("Colony"=c("265-1", "266-1", "267", "268-1", "269-1", "270-1A", "271-1", "285-1", "287-1", "336-1A", "339-1A"), "ITS2_14"="C_b") # 267 and 269 placed under D1
+  # Create a data frame with initial (2014) ITS2 profiles and Pocillopora ORF types 
+
+    # Cladocopium dominated
+    ITS2_C1d<-data.frame("Colony"=c("256-1", "257-1", "260-1", "262-1", "330-1", "340-1A"), "ITS2_14"="C1d", "ORF"="Type 3")
+   
     
-    ITS2_C_b<-data.frame("Colony"=c("265-1", "266-1", "268-1",  "270-1A", "271-1", "285-1",
-                                    "287-1", "336-1A", "339-1A"), "ITS2_14"="C_b")
-    ITS2_C<-rbind(ITS2_C_a, ITS2_C_b)
+    ITS2_C1bc<-data.frame("Colony"=c("265-1", "266-1", "268-1",  "270-1A", "271-1", "285-1","287-1", "336-1A", "339-1A"),
+                          "ITS2_14"="C1bc", 
+                          "ORF"="Type 1") # 267 and 269 under D1
     
+    #ITS2_C1bc<-data.frame("Colony"=c("265-1", "266-1","267", "268-1", "269-1", "270-1A", "271-1", "285-1","287-1", "336-1A", "339-1A"),
+    #                    "ITS2_14"="C1bc", 
+    #                    "ORF"="Type 1") # 267 and 269 under C1bc
+    
+    ITS2_C<-rbind(ITS2_C1d, ITS2_C1bc)
+    
+    # Durusdinium dominated
     ITS2_D<-anti_join(D2014.data, ITS2_C, by="Colony")
     ITS2_D$ITS2_14<-"D1"
-    ITS2_D<-ITS2_D[, c("Colony", "ITS2_14")]
+    ITS2_D$ORF<-"Type 1"
+    ITS2_D<-ITS2_D[, c("Colony", "ITS2_14", "ORF")]
     
+    # Merge initial ITS2 profiles and ORF Pocillopora types with qPCR data
     ITS2<-rbind(ITS2_C, ITS2_D)
-    data.Uva<-left_join(data.Uva, ITS2, by=c("Colony")) # Add initial ITS2 profiles to all samples
+    data.Uva<-left_join(data.Uva, ITS2, by=c("Colony")) 
 ```
 
 ## 6b. Changes in colony proportions based on ITS2 profiles (2014) and genus dominance
@@ -712,7 +723,7 @@ Histo_Dprop_ITS2 <- ggplot(data.Uva, aes (D.Prp , fill=(ITS2_14)), shape=(D14Com
       scale_fill_manual(values=c("blue3","purple", "red3"),
                         guide = guide_legend(title.position = "top", nrow = 1),
                         name = "Initial ITS2 community (August 2014)", 
-                        labels=c("C_a", "C_b", "D1")) +
+                        labels=c("C1d", "C1b-c", "D1")) +
       scale_x_continuous(name= expression(
                         italic(Durusdinium)~proportion~(D/H)/(S/H)),
                         breaks=(seq(0,1,by=0.1))) +
@@ -722,6 +733,25 @@ Histo_Dprop_ITS2 <- ggplot(data.Uva, aes (D.Prp , fill=(ITS2_14)), shape=(D14Com
             legend.title.align=0.5,
             strip.background =element_rect(fill=NA))
 Histo_Dprop_ITS2 +coord_flip()
+
+Histo_Dprop_ORF <- ggplot(data.Uva, aes (D.Prp , fill=(ORF)), shape=(D14Community))  + ggthe_bw +
+      geom_histogram(binwidth = 0.05, boundary=0) +
+      facet_grid(~Year.2, labeller = labeller(Year.2=c(
+                    `2014` = "August 2014", 
+                    `2015` = "August 2015", `2016` = "April 2016"))) +
+      scale_fill_manual(values=c("black","gray"),
+                        guide = guide_legend(title.position = "top", nrow = 1),
+                        name = "ORF type", 
+                        labels=c("Type 3", "Type 1")) +
+      scale_x_continuous(name= expression(
+                        italic(Durusdinium)~proportion~(D/H)/(S/H)),
+                        breaks=(seq(0,1,by=0.1))) +
+      scale_y_continuous((name= "Number of colonies"),
+                         breaks=seq(0,15,by=5)) +
+      theme(legend.position="bottom",
+            legend.title.align=0.5,
+            strip.background =element_rect(fill=NA))
+Histo_Dprop_ORF +coord_flip()
 
 ```
 
@@ -736,6 +766,16 @@ Traject_Proportion_FacetITS2 <- ggplot (data.Uva) +
     #labs(x = "Año del muestreo", y = "Durusdinium Proportion") +
     theme(legend.position="none")
 Traject_Proportion_FacetITS2
+
+Traject_Proportion_FacetORF <- ggplot (data.Uva) +
+   ggthe_bw + 
+    geom_line(aes (x=Year.2, D.Prp, colour=factor(Colony)))+ 
+    facet_wrap(~ORF) +
+    geom_jitter(aes(Year.2, D.Prp, colour=factor(Colony)), alpha=0.3, 
+              height = 0.05, width = 0.15) +
+    #labs(x = "Año del muestreo", y = "Durusdinium Proportion") +
+    theme(legend.position="none")
+Traject_Proportion_FacetORF
 ```
 
 ### Figure 2: ITS2
@@ -807,6 +847,85 @@ nrow=1, widths=c(3/9, 3/9, 3/9))
 
 ```
 
+### Figure 2: ORF
+
+```{r}
+Histo2014_DpropORF <- ggplot(data.Uva[which(data.Uva$Year.2==2014), ], aes (D.Prp , fill=(ORF))) +
+        ggthe_bw + coord_flip()+ ggtitle("a.")+
+        geom_histogram(binwidth = 0.05, boundary=0, colour="black") +
+        scale_fill_manual(values=c("gray","white"),
+                          guide = guide_legend(title.position = "top", nrow = 1),
+                          name = "ORF Type", 
+                          labels=c("Type 3", "Type 1")) +
+        scale_x_continuous(name= expression(
+                          italic(Durusdinium)~proportion~((D/H)/(S/H))),
+                          breaks=(seq(0,1,by=0.1)),
+                          expand=c(0.01,0.01)) +
+        scale_y_continuous((name= "Number of colonies \n (Aug 2014)"),
+                          limits = c(0,16),
+                          breaks=seq(0,15,by=5)) +
+        theme(legend.position="bottom",
+              legend.title.align=0.5,
+              strip.background =element_rect(fill=NA),
+              panel.border = element_blank(),
+              axis.line = element_line(colour = "black"))
+#Histo2014_DpropORF 
+
+Histo2016_DpropORF <- ggplot(data.Uva[which(data.Uva$Year.2==2016), ], aes (D.Prp , fill=(ORF))) +
+        ggthe_bw + coord_flip()+ ggtitle("c.")+
+        geom_histogram(binwidth = 0.05, boundary=0, 
+                       colour="black") +
+        scale_fill_manual(values=c("gray","white"),
+                          guide = guide_legend(title.position = "top", nrow = 1),
+                          name = "ORF Type", 
+                          labels=c("Type 3", "Type 1")) +
+        scale_x_continuous(name="",
+                           breaks=(seq(0,1,by=0.1)),
+                           expand=c(0.01,0.01)) +    
+        scale_y_continuous((name= "Number of colonies \n (Aug 2016)"),
+                          limits = c(0,16),
+                          breaks=seq(0,15,by=5)) +
+          theme(legend.position="bottom",
+              legend.title.align=0.5,
+              strip.background =element_rect(fill=NA),
+              panel.border = element_blank(),
+              axis.line = element_line(colour = "black"))
+#Histo2016_DpropORF
+
+Traject_ProportionORF_a<- ggplot(data.Uva, aes (x=Year.2, y=D.Prp))+
+        ggthe_bw + ggtitle("b.") +
+        geom_line(aes(colour=(ORF), group=(Colony)), linetype=2) +
+        scale_colour_manual(values=c("gray", "black"),
+                          guide = guide_legend(title.position = "top", nrow = 1),
+                          name = "Pocillopopra type", 
+                          labels=c("Type 3", "Type 1")) +
+        scale_x_continuous(name="", 
+                           breaks = c(2014, 2015, 2016),
+                           labels = c(" Aug \n 2014", " Aug \n 2015", " Apr \n 2016")) +
+        scale_y_continuous((name= ""),
+                           breaks=seq(0,1,by=0.1),
+                           expand=c(0.01,0.01)) +
+        theme(legend.position="bottom",
+              legend.title.align=0.5,
+              strip.background =element_rect(fill=NA))
+  
+  Traject_ProportionORF <- Traject_ProportionORF_a + 
+  geom_jitter((aes(fill=factor(ORF))), 
+                    height = 0, width = 0.3, color="black", size=2, shape=21) +
+        scale_fill_manual(values=c("gray", "white"))
+
+#Traject_ProportionORF
+
+
+
+
+Figure_2_ORF<-grid.arrange(Histo2014_DpropORF, Traject_ProportionORF, Histo2016_DpropORF,
+nrow=1, widths=c(3/9, 3/9, 3/9))
+
+# ggsave(file="Outputs/Figure_2_ORF.svg",plot=Figure_2_ORF, width=7, height=4, dpi=300)
+
+```
+
 ## 7b. Changes in total Symbiodiniaceae abundance (bleaching): qPCR + Initial ITS2
 
 Only considering initial (2014) community
@@ -827,8 +946,8 @@ SH_2014CoI<-lmerTest::lmer(logTot.SH ~ Year * ITS2_14 + (1|Colony), data=data.Uv
       coord_flip(xlim = NULL, ylim = NULL, expand = TRUE) + facet_wrap(~ITS2_14)
     
     
-SH_2014ComI <- ggplot(data.Uva, aes (Year.2, logTot.SH, colour=factor(ITS2_14))) +  ggthe_bw +
-  stat_summary(fun.data = "mean_cl_boot",geom = "errorbar", width = 1, 
+SH_2014ComI <- ggplot(data.Uva, aes (Year.2, logTot.SH, colour=factor(DominantCommunity))) +  ggthe_bw + facet_wrap(~ITS2_14) +
+  stat_summary(fun.data = "mean_cl_boot",geom = "errorbar",  
                    position=position_dodge(width=0.95))+
   stat_summary(fun.data = "mean_cl_boot",geom = "point", 
                    position=position_dodge(width=0.95))+
@@ -836,8 +955,7 @@ SH_2014ComI <- ggplot(data.Uva, aes (Year.2, logTot.SH, colour=factor(ITS2_14)))
   
   scale_colour_manual(values=c("blue","purple", "red"),
                         guide = guide_legend(title.position = "top", nrow = 1),
-                        name = "ITS2 detected in 2014",
-                        labels=c("C_a", "C_b", "D1"))+
+                        name = "Dominant ITS2 in 2014")+
   theme(legend.position=c(0.5,0.1),
         strip.background =element_rect(fill="white")) +
   scale_y_continuous(limits = c(-3, -0.8),
@@ -851,37 +969,7 @@ SH_2014ComI
 Only considering current community ADD CURRENT ITS2!
 
 ```{r}
-# SH_Community<-lmerTest::lmer(logTot.SH ~ Year * Community + (1|Colony), data=data.Uva)
-#     summary(SH_Community)
-#     #step(SH_Community)
-#     
-#     SH.emmc<-emmeans(SH_Community, ~Year*Community)
-#     SH_groups<-multcomp::cld(SH.emmc)    
-#     #write.csv(SH_groups,"SH_groupsB.csv")
-#     
-# plot(emmeans(SH_Community, ~Year|~Community), comparisons = TRUE) +
-#       coord_flip(xlim = NULL, ylim = NULL, expand = TRUE) + facet_wrap(~Community)
-# 
-# SH_Com <- ggplot(data.Uva, aes (Year.2, logTot.SH, colour=factor(Community))) +  ggthe_bw +
-#   stat_summary(fun.data = "mean_cl_boot",geom = "errorbar", width = 1, 
-#                    position=position_dodge(width=0.95))+
-#   stat_summary(fun.data = "mean_cl_boot",geom = "point", 
-#                    position=position_dodge(width=0.95))+
-#   stat_summary(fun.y=mean, geom="line", position=position_dodge(width=0.95)) +
-#   
-#   scale_colour_manual(values=c("blue","purple", "red"),
-#                         guide = guide_legend(title.position = "top", nrow = 1),
-#                         name = "Symbionts detectec in 2014",
-#                         labels=c("Cladocopium", "Mixed", "Durusdinium"))+
-#   theme(legend.position=c(0.5,0.1),
-#         strip.background =element_rect(fill="white")) +
-#   scale_y_continuous(limits = c(-3, -0.8),
-#             name="\n Total symbiont to host cell ratio (S/H)", 
-#             labels = (math_format(10^.x)),
-#             expand = c(0.0, 0)) + 
-#   scale_x_discrete(name="Year")
-# SH_Com
-  
+C
 
 ```    
 
@@ -902,11 +990,11 @@ SH_Communities_I<-lmerTest::lmer(logTot.SH ~ Year * ITS2_14 * Community + (1|Col
     SH_CI_groups
     #write.csv(SH_groups,"SH_Communities_multicomp.csv")
 
-SH_Comties_I <- ggplot(data.Uva, aes (Year.2, logTot.SH, colour=factor(Community))) + ggthe_bw+
+SH_ITS2_Comunities <- ggplot(data.Uva, aes (Year.2, logTot.SH, colour=factor(Community))) + ggthe_bw+
     
       facet_grid(~ITS2_14, labeller = labeller(ITS2_14=c(
-                      `C_a` = "C_a (2014)",
-                      `C_b` = "C_b (2014)", 
+                      `C1d` = "C1d (2014)",
+                      `C1bc` = "C1bc (2014)", 
                       `D1` = "D1 (2014)"))) +
         
       stat_summary(fun.data = "mean_cl_boot",geom = "errorbar", width = 0.2, position=position_dodge(width=0.3))+
@@ -928,9 +1016,9 @@ SH_Comties_I <- ggplot(data.Uva, aes (Year.2, logTot.SH, colour=factor(Community
       scale_x_continuous(name="", 
                          breaks = c(2014, 2015, 2016),
                          labels = c(" Aug \n 2014", " Aug \n 2015", " Apr \n 2016")) 
-SH_Comties_I
+SH_ITS2_Comunities
 
-#ggsave(file="Figure_3.svg", plot=SH_Comties, width=6, height=4)
+#ggsave(file="Figure_3.svg", plot=SH_ITS2_Comunities, width=6, height=4, dpi=300)
 
 ```
 
@@ -962,7 +1050,7 @@ CH_Com <- ggplot(data.Uva, aes (Year.2, logC.SH, colour=factor(Community))) + gg
                          labels = c(" ", " ", " ")) 
 #CH_Com
 
-CH_Com2ITS2<-CH_Com + facet_grid(~ITS2_14)
+CH_Com2ITS2<-CH_Com + facet_grid(~ORF)
 # CH_Com2ITS2
 
 CH_I<-lmer(logC.SH ~ Year* Community* ITS2_14 + (1|Colony), data=data.Uva)
@@ -1004,7 +1092,7 @@ DH_ComI <- ggplot(data.Uva, aes (Year.2, logD.SH, colour=factor(Community))) +
                          breaks = c(2014, 2015, 2016),
                          labels = c(" Aug \n 2014", " Aug \n 2015", " Apr \n 2016"))
 
-DH_Com2ITS2<-DH_ComI + facet_grid(~ITS2_14)
+DH_Com2ITS2<-DH_ComI + facet_grid(~ORF)
 DH_Com2ITS2
 
 DH_LM_ITS2<-lmer(logD.SH ~ Year* Community* ITS2_14 + (1|Colony), data=data.Uva)
