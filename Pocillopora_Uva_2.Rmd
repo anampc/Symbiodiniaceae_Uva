@@ -16,9 +16,9 @@ editor_options:
 knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
 ```
 
-This file analyzes the changes in S/H cell ratio (bleaching) in *Pocillopora* sp:
-* In 29 colonies sampled in 2014 (Before ENSO), 2015 (during a 1st peak of heat) and 2016 (during 2nd peak of heat)
-* These samples were collected at Uva Island, Gulf of Chiriquí, Panama
+This file analyzes the changes in S/H cell ratio (bleaching and symboint shuffling) in *Pocillopora* spp.:
+* 29 colonies were sampled in 2014 (Before ENSO), 2015 (during a 1st peak of heat) and 2016 (after a 2nd peak of heat)
+* These samples were collected at Uva Island, Gulf of Chiriquí, Panama.
 
 ```{r libraries}
 # Libraries    
@@ -50,7 +50,7 @@ This file analyzes the changes in S/H cell ratio (bleaching) in *Pocillopora* sp
 
 ## 1. Symbiont to host (S/H) cell ratio and *Durusdinium* proportion
 
-Get the raw data for all Pocillopora samples applying R.Cunning steponeR function
+Get the raw data for all **Pocillopora** samples applying R.Cunning steponeR function
 
 1. Get list of plate files to read data
 2. Calculate the ratios 
@@ -86,7 +86,7 @@ Get colony and year information from sample labels
 
 Calculate total S/H ratio and D/C ratio and propD
 
-```{r, include=FALSE}
+```{r}
 
 # 0. If Clade only detected in one technical replicate, set its ratio to NA (becomes zero)
   Pdam$C.Pdam[which(Pdam$C.reps==1)] <- NA
@@ -126,9 +126,9 @@ Calculate total S/H ratio and D/C ratio and propD
   #hist(Dproportion$D.Prp)
 ```
 
-Most of the colonies are dominated by one symbiont genus
+Note: Most of the colonies are dominated by one symbiont genus. Even proportions of multiple symbionts are rare.
 
-## 2. qPCR DATA CLEANING and quality control
+## 2. qPCR Data Cleaning and quality control
 
 ```{r DataCleaning}
  
@@ -180,7 +180,7 @@ Get collection information and select only samples from Uva Island that were sam
   ## Merge SH ratios and sample info
       Pdam<-join(Pdam, Info, by = "Sample", 
                 type = "left", match = "all")
-      summary(Pdam)
+      #summary(Pdam)
 
 # 2. Uva Data
       # Write how many years a colony was sampled
@@ -211,7 +211,7 @@ Get collection information and select only samples from Uva Island that were sam
 ### Symbiodiniaceae genera detected in the samples (Only-C, Only-D, Mixed communities)
 
 ```{r}
-# Add a column for the genera detected using qPCR
+# Add a column for the genera detected in each sample using qPCR
   data.Uva$Community<-NULL
   data.Uva$Community[which(data.Uva$D.Prp>=0)] <- "Mixed"
   data.Uva$Community[which(data.Uva$D.Prp==0)] <- "Cladocopium-only"
@@ -230,9 +230,9 @@ Get collection information and select only samples from Uva Island that were sam
 
 ### Dominant Symbiodiniaceae genus in each sample (C-dominated, D-dominated)
 
-In general, Pocillipora colonies are dominated by one Symbiodiniaceae type that accounts for more than 90 of the symbiont community. However, sometimes intermediate proportions are common when the symbiont community is transitioning from being dominated by one algal type to other (e.g. during heat stress). 
+In general, **Pocillopora** colonies are dominated by one Symbiodiniaceae type that accounts for more than 80-90 of the symbiont community. However, sometimes intermediate proportions are common when the symbiont community is transitioning from being dominated by one algal type to other (e.g. during heat stress). 
 
-For this data set, 2 of the colonies sampled in 2014 had relativelly even proportions of *Cladocopium*_C1bc and *Durusdinim glynnii* (Colony 267_2014, D proportion = 0.47; Colony 269_2014, D proportion = 0.50). This made difficult their classification into one domminant type for statistical testing and further plotting. Since these 2 colonies were later dominated by *Durusdinim glynnii* in 2015, we decided to include them in the D-dominated classification, eventhoug in 2014 there were not such a dominance (See figure 2). 
+For this data set, 2 of the colonies sampled in 2014 had relativelly even proportions of *Cladocopium*_C1bc and *Durusdinim glynnii* (Colony 267_2014, D proportion = 0.47; Colony 269_2014, D proportion = 0.50). This made difficult their classification into one domminant type for statistical testing and further plotting. Since these 2 colonies were later dominated by *Durusdinim glynnii* in 2015, we decided to include them in the D-dominated classification, eventhoug in 2014 there were not such a dominance (See figure 2a). 
 
 ```{r}
  # Add a column for the dominant genus
@@ -251,7 +251,32 @@ For this data set, 2 of the colonies sampled in 2014 had relativelly even propor
   Summary_Community2
 ``` 
 
-### Changes in the number of colonies dominated by each genus
+Set initial (2014) and final (2016) communities for each colony 
+
+```{r}
+  # Subset Aug 2014,  Aug 2015 and April 2016 samples
+  D2014.data<-subset(data.Uva, Year.2==2014)
+  D2014.data<-D2014.data[,c("Colony","D.Prp","Community","DominantCommunity")]
+  colnames(D2014.data)<-(c("Colony","D14.D.Prp","D14Community", "D14Dominant"))
+  data.Uva<-left_join(data.Uva, D2014.data, by=c("Colony")) # Add initial community to all samples
+   
+  # D2015.data<-subset(data.Uva, Year.2==2015)
+  # D2015.data<-D2015.data[, c("Colony","D.Prp","Community")]
+  # colnames(D2015.data)<-(c("Colony","D15.D.Prp","D15Community"))
+  # # data.Uva<-left_join(data.Uva, D2015.data, by=c("Colony"))
+
+  D2016.data<-subset(data.Uva, Year.2==2016) # D1a under control temperature
+  D2016.data<-D2016.data[, c("Colony","D.Prp","Community","DominantCommunity")]
+  colnames(D2016.data)<-(c("Colony","D16.D.Prp","D16Community", "D16Dominant"))
+  data.Uva<-left_join(data.Uva, D2016.data, by=c("Colony")) # Add final community to all samples
+  
+```
+
+---
+
+# qPCR BASED analysis (No ITS2 or ORF information included)
+
+## 5a. Changes in the number of colonies dominated by each genus
 
 To test the statistical significance of changes in the number of colonies dominated by *Durusdinium* versus *Cladocopium* we considered inclussion and exclussion of these 2 initially even colonies, and to place them in the D-dominated or C-dominated categories in 2014.
 
@@ -323,34 +348,6 @@ fisher.test(Matriz,
 
 ```
 
----
-
-# QPCR BASED (No ITS2 or ORF)
-
-## 5a. qPCR based analysis (Symbiodiniaceae genera hosted)
-
-Set initial (2014) and final (2016) communities for each sample 
-
-```{r}
-  # Subset Aug 2014,  Aug 2015 and April 2016 samples
-  D2014.data<-subset(data.Uva, Year.2==2014)
-  D2014.data<-D2014.data[,c("Colony","D.Prp","Community","DominantCommunity")]
-  colnames(D2014.data)<-(c("Colony","D14.D.Prp","D14Community", "D14Dominant"))
-  data.Uva<-left_join(data.Uva, D2014.data, by=c("Colony")) # Add initial community to all samples
-   
-  # D2015.data<-subset(data.Uva, Year.2==2015)
-  # D2015.data<-D2015.data[, c("Colony","D.Prp","Community")]
-  # colnames(D2015.data)<-(c("Colony","D15.D.Prp","D15Community"))
-  # # data.Uva<-left_join(data.Uva, D2015.data, by=c("Colony"))
-
-  D2016.data<-subset(data.Uva, Year.2==2016) # D1a under control temperature
-  D2016.data<-D2016.data[, c("Colony","D.Prp","Community","DominantCommunity")]
-  colnames(D2016.data)<-(c("Colony","D16.D.Prp","D16Community", "D16Dominant"))
-  data.Uva<-left_join(data.Uva, D2016.data, by=c("Colony")) # Add final community to all samples
-  
-```
-
-
 ## 6a. Changes in colony proportions based on detected genera (qPCR)
 
 * Based on detected Symbiodiniacea genera in 2014 (qPCR)
@@ -372,7 +369,7 @@ Histo_Dprop <- ggplot(data.Uva, aes (D.Prp , fill=(D14Community))) + ggthe_bw +
     theme(legend.position="bottom",
         legend.title.align=0.5,
         strip.background =element_rect(fill=NA))
-Histo_Dprop +coord_flip()
+Histo_Dprop
 
 ```
 
@@ -460,7 +457,7 @@ nrow=1, widths=c(3/9, 3/9, 3/9))
 
 ## 7a. Changes in total Symbiodiniaceae abundance (bleaching): qPCR
 
-* Only considering initial (2014) community
+### Considering initial (2014) community
 
 ```{r}
 SH_2014Co<-lmerTest::lmer(logTot.SH ~ Year * D14Community + (1|Colony), data=data.Uva)
@@ -469,6 +466,8 @@ SH_2014Co<-lmerTest::lmer(logTot.SH ~ Year * D14Community + (1|Colony), data=dat
     
     SH.emmc<-emmeans(SH_2014Co, ~Year*D14Community)
     SH_groups<-multcomp::cld(SH.emmc)
+    SH_groups<-SH_groups[order(
+                SH_groups$Year, SH_groups$D14Community),]
     SH_groups
     
     plot(emmeans(SH_2014Co, ~Year|~D14Community), comparisons = TRUE) +
@@ -496,7 +495,7 @@ SH_2014Com <- ggplot(data.Uva, aes (Year.2, logTot.SH, colour=factor(D14Communit
 SH_2014Com
 ```   
 
-* Only considering current community
+### Considering current community
 
 ```{r}
 SH_Community<-lmerTest::lmer(logTot.SH ~ Year * Community + (1|Colony), data=data.Uva)
@@ -504,7 +503,10 @@ SH_Community<-lmerTest::lmer(logTot.SH ~ Year * Community + (1|Colony), data=dat
     #step(SH_Community)
     
     SH.emmc<-emmeans(SH_Community, ~Year*Community)
-    SH_groups<-multcomp::cld(SH.emmc)    
+    SH_groups<-multcomp::cld(SH.emmc) 
+    SH_groups<-SH_groups[order(
+                SH_groups$Year, SH_groups$Community),]
+    SH_groups
     #write.csv(SH_groups,"SH_groupsB.csv")
     
 plot(emmeans(SH_Community, ~Year|~Community), comparisons = TRUE) +
@@ -534,9 +536,7 @@ anova(SH_2014Co, SH_Community)
 
 ```    
 
-* Plot based on initial and current symbiont community 
-
-### Figure 3: qPCR
+### Considering initial and current symbiont community: Figure 3: qPCR
 
 ```{r LMER_TotalSH}
 
@@ -547,7 +547,9 @@ SH_Communities<-lmerTest::lmer(logTot.SH ~ Year * D14Community * Community + (1|
     SH.emmc<-emmeans(SH_Communities, ~Year*D14Community*Community)
     SH_groups<-cld(SH.emmc)
     SH_groups<-as.data.frame(SH_groups[complete.cases(SH_groups),])
-    SH_groups<-SH_groups[order(SH_groups$Year,SH_groups$D14Community, SH_groups$Community),]
+    SH_groups<-SH_groups[order(SH_groups$Year,
+                               SH_groups$D14Community,
+                               SH_groups$Community),]
     SH_groups
     #write.csv(SH_groups,"SH_Communities_multicomp.csv")
 
@@ -587,7 +589,8 @@ SH_Comties
 
 ```{r LmerC}
 
-CH_Com <- ggplot(data.Uva, aes (Year.2, logC.SH, colour=factor(Community))) + ggthe_bw+ ggtitle("a.")+
+CH_Com <- ggplot(data.Uva, aes (Year.2, logC.SH, colour=factor(DominantCommunity))) + ggthe_bw+ ggtitle("a.")+
+  geom_point()+
     
       stat_summary(fun.data = "mean_cl_boot",geom = "errorbar", width = 0.2, position=position_dodge(width=0.3))+
       stat_summary(fun.data = "mean_cl_boot",geom = "point", position=position_dodge(width=0.3), alpha=0.5)+
@@ -672,7 +675,7 @@ DH_LM<-lmer(logD.SH ~ Year* Community* D14Dominant + (1|Colony), data=data.Uva)
     #write.csv(DH_groups,"DH_groups.csv")
     ```
 
-### Figure 4: qPCR 
+### Figure 4: Cahnges in C/H and D/H  
 
 ```{r}
 Figure_4<-grid.arrange(CH_Com2, DH_Com2,nrow=2)
@@ -681,27 +684,25 @@ Figure_4<-grid.arrange(CH_Com2, DH_Com2,nrow=2)
 
 ```
 
-
-
-
 ---
 
-# ITS2 + ORF
+# Symbiodiiaceae ITS2 type + ORF lineage data analysis 
 
-## 5b. DGGE based analysis (Symbiodiniaceae ITS2 type hosted)
-
-Add ORF Pocillopora and ITS2 dominant profile in 2014
+### Add Pocillopora ORF lineage and Symbiodiniaceae ITS2 type hosted in 2014
 
 ```{r}
 # Create a data frame with initial (2014) ITS2 profiles and Pocillopora ORF types 
 
     # Cladocopium dominated
     # Colonies mainly hosting C1d (Pocillopora Type 3)
-        ITS2_C1d<-data.frame("Colony"=c("256-1", "257-1", "260-1", "262-1", "330-1", "340-1A"),
+        ITS2_C1d<-data.frame("Colony"=c("256-1", "257-1", "260-1", 
+                                        "262-1", "330-1", "340-1A"),
                          "ITS2_14"="C1d", 
                          "ORF"="Type 3")
    # Colonies mainly hosting C1bc (Pocillopora Type 1)
-        ITS2_C1bc<-data.frame("Colony"=c("265-1", "266-1", "268-1",  "270-1A", "271-1", "285-1","287-1", "336-1A", "339-1A"),
+        ITS2_C1bc<-data.frame("Colony"=c("265-1", "266-1", "268-1",  
+                                         "270-1A", "271-1", "285-1",
+                                         "287-1", "336-1A", "339-1A"),
                           "ITS2_14"="C1bc", 
                           "ORF"="Type 1") # 267 and 269 (~50% C and 50% D) under D1
     
@@ -733,16 +734,77 @@ Add ORF Pocillopora and ITS2 dominant profile in 2014
     
   #data.Uva$Counts<-paste(data.Uva$DominantCommunity, data.Uva$ORFCommunity, sep = "_")
   data.Uva$ORFCommunity<-paste(data.Uva$ORF, data.Uva$Community, sep = "_")
+  
   data.Uva$ORFCommunity<-factor(data.Uva$ORFCommunity,
-                                levels = c("Type 3_Cladocopium-only", "Type 1_Cladocopium-only",
-                                           "Type 1_Mixed", "Type 1_Durusdinium-only"))
-  summary(data.Uva$ORFCommunity)
+                                levels = c("Type 3_Cladocopium-only", 
+                                           "Type 1_Cladocopium-only",
+                                           "Type 1_Mixed", 
+                                           "Type 1_Durusdinium-only"))
+  
+  data.Uva$ORFCommunity2<-paste(data.Uva$ORF,
+                              data.Uva$DominantCommunity, sep = "_")
+  data.Uva$ORFCommunity2<-as.factor(data.Uva$ORFCommunity2)
+ 
+  data.Uva$DominantITS2[which(
+    (data.Uva$DominantCommunity=="Durusdinium-dominated") &
+    (data.Uva$ORF=="Type 1")
+      )] <- "D1-dominated"
+  
+  data.Uva$DominantITS2[which(
+    (data.Uva$DominantCommunity=="Cladocopium-dominated") &
+    (data.Uva$ORF=="Type 1")
+      )] <- "C1bc-dominated"
+  
+    data.Uva$DominantITS2[which(
+    (data.Uva$DominantCommunity=="Cladocopium-dominated") &
+    (data.Uva$ORF=="Type 3")
+      )] <- "C1d-dominated"
+  
+   data.Uva$DominantITS2<-as.factor(data.Uva$DominantITS2)
+  
+summary(data.Uva$DominantITS2)
+```
+
+## 5b. Changes in the number of colonies dominated by each genus
+
+* Fisher test including initially (Aug 2014) 50/50 colonies. Both colonies placed in the D-dominated category to be conservative.
+
+```{r}
+# Only type 1 colonies (n=23)
+
+Input =("
+Year    C     D
+2014    9    14
+2016    2    21
+")
+
+Matriz <- as.matrix(read.table(textConnection(Input),
+                               header=TRUE, 
+                               row.names=1))
+fisher.test(Matriz,
+            alternative="two.sided")
+
+
+# Type 1 and type 3 colonies
+
+Input =("
+Year    C     D
+2014    15    14
+2016    8     21
+")
+
+Matriz <- as.matrix(read.table(textConnection(Input),
+                               header=TRUE, 
+                               row.names=1))
+fisher.test(Matriz,
+            alternative="two.sided")
 
 ```
 
+
 ## 6b. Changes in colony proportions based on ITS2 profiles (2014) and genus dominance
 
-* Based on ITS2 detected symbionts in 2014
+* Histograms based on ITS2 detected symbionts in 2014
 
 ```{r}
 Histo_Dprop_ITS2 <- ggplot(data.Uva, aes (D.Prp , fill=(ITS2_14)), shape=(D14Community))  + ggthe_bw +
@@ -763,6 +825,12 @@ Histo_Dprop_ITS2 <- ggplot(data.Uva, aes (D.Prp , fill=(ITS2_14)), shape=(D14Com
             strip.background =element_rect(fill=NA))
 Histo_Dprop_ITS2 +coord_flip()
 
+```
+
+* Histograms based on ORF lineage
+
+```{r}
+
 Histo_Dprop_ORF <- ggplot(data.Uva, aes (D.Prp , fill=(ORF)), shape=(D14Community))  + ggthe_bw +
       geom_histogram(binwidth = 0.05, boundary=0) +
       facet_grid(~Year.2, labeller = labeller(Year.2=c(
@@ -780,12 +848,15 @@ Histo_Dprop_ORF <- ggplot(data.Uva, aes (D.Prp , fill=(ORF)), shape=(D14Communit
       theme(legend.position="bottom",
             legend.title.align=0.5,
             strip.background =element_rect(fill=NA))
-Histo_Dprop_ORF +coord_flip()
+Histo_Dprop_ORF
 
 ```
 
+* Durusdinium proportion trajectory 
+
 ```{r}
 
+# By ITS2 type
 Traject_Proportion_FacetITS2 <- ggplot (data.Uva) +
    ggthe_bw + 
     geom_line(aes (x=Year.2, D.Prp, colour=factor(Colony)))+ 
@@ -796,32 +867,21 @@ Traject_Proportion_FacetITS2 <- ggplot (data.Uva) +
     theme(legend.position="none")
 Traject_Proportion_FacetITS2
 
-Traject_Proportion_FacetORF <- ggplot (data.Uva) +
-   ggthe_bw + 
-    geom_line(aes (x=Year.2, D.Prp, group=Colony, colour=factor(ORF)))+ 
-    facet_wrap(~ORF) +
-    geom_jitter(aes(Year.2, D.Prp, colour=(Depht)),
-              height = 0.05, width = 0.15) +
-    #labs(x = "Año del muestreo", y = "Durusdinium Proportion") +
-    theme(legend.position="none")
-Traject_Proportion_FacetORF
-
-
+# By Depth
 Traject_Proportion_FacetORF <- ggplot (data.Uva) +    ggthe_bw +
-      geom_line(aes (x=Year.2, D.Prp, group=Colony, shape=(ORF)))+
+      geom_line(aes (x=Year.2, D.Prp, group=Colony, linetype=(ORF)))+
       geom_jitter(aes(Year.2, D.Prp, colour=(Depht), shape=ORF),
               height = 0.00, width = 0.25, size=3) +  
       scale_colour_gradient(low = "red", high = "blue")
 Traject_Proportion_FacetORF
 
 
-Traject_Proportion_FacetORF <- ggplot (data.Uva, aes(x=Depht, y=D.Prp, group=Colony)) +
-  ggthe_bw +
-  geom_line()+
-  geom_jitter(aes(shape=ORF, colour=Year),
-              height = 0.00, width = 1, size=3) 
-  #scale_colour_gradient(low = "red", high = "blue")
-Traject_Proportion_FacetORF
+# Traject_Proportion_FacetORF <- ggplot (data.Uva, aes(x=Depht, y=D.Prp, group=Colony)) +
+#   ggthe_bw +
+#   geom_line()+
+#   geom_jitter(aes(shape=ORF, colour=Year),
+#               height = 0.00, width = 1, size=3) 
+# Traject_Proportion_FacetORF
 ```
 
 ### Figure 2: ITS2
@@ -956,14 +1016,11 @@ Traject_ProportionORF_a<- ggplot(data.Uva, aes (x=Year.2, y=D.Prp))+
               strip.background =element_rect(fill=NA))
   
   Traject_ProportionORF <- Traject_ProportionORF_a + 
-  geom_jitter((aes(fill=factor(ORF))), 
+  geom_jitter((aes(colour=factor(ORF))), 
                     height = 0, width = 0.3, color="black", size=1, shape=21) +
         scale_fill_manual(values=c("white", "gray"))
-
-#Traject_ProportionORF
-
-
-
+  
+   #Traject_ProportionORF
 
 Figure_2_ORF<-grid.arrange(Histo2014_DpropORF, Traject_ProportionORF, Histo2016_DpropORF,
 nrow=1, widths=c(3/9, 3/9, 3/9))
@@ -985,82 +1042,65 @@ nrow=1, widths=c(3/9, 3/9, 3/9))
         dplyr::summarise(total.count=n()) 
   Community_dominance
   
-    Community_dominance<-data.Uva %>%
-        group_by(ORF, Year.2,Counts) %>%
+  Community_dominance<-data.Uva %>%
+        group_by(ORF, Year.2, DominantCommunity,
+                Community) %>%
         dplyr::summarise(total.count=n()) 
   Community_dominance
+  
+  SH_mean<-data.Uva %>%
+        group_by(ORF, Year.2, DominantCommunity) %>%
+        dplyr::summarise(mean=mean(tot.SH)) 
+  SH_mean
+  
+  SH_SE<-data.Uva %>%
+        group_by(ORF, Year.2, DominantCommunity) %>%
+        dplyr::summarise(sd=sd(tot.SH)) 
+  SH_SE
 ``` 
-
-### Changes in the number of colonies dominated by each genus
-
-To test the statistical significance of changes in the number of colonies dominated by *Durusdinium* versus *Cladocopium* we considered inclussion and exclussion of these 2 initially even colonies, and to place them in the D-dominated or C-dominated categories in 2014.
-
-* Fisher test including initially (Aug 2014) 50/50 colonies. Both colonies placed in the D-dominated category to be conservative.
-
-```{r}
-Input =("
-Year    C     D
-2014    9     14
-2016    2     21
-")
-
-Matriz <- as.matrix(read.table(textConnection(Input),
-                               header=TRUE, 
-                               row.names=1))
-fisher.test(Matriz,
-            alternative="two.sided")
-
-```
-
 
 ## 7b. Changes in total Symbiodiniaceae abundance (bleaching): qPCR + ORF
 
-### Figure 3: ITS2
+### Figure 3: ORF + Dominant symbiont
 
 ```{r}
+#SH_2014CoI<-lm(logTot.SH ~ Year * ORF * DominantCommunity,             data=data.Uva)
 SH_2014CoI<-lmerTest::lmer(logTot.SH ~ Year * ORF * DominantCommunity + (1|Colony), data=data.Uva)
+
     summary(SH_2014CoI)
-    #step(SH_2014CoI)
+    step(SH_2014CoI, reduce.random=FALSE)
     
     SH_I.emmc<-emmeans(SH_2014CoI, ~Year*ORF*DominantCommunity)
     SH_I_groups<-multcomp::cld(SH_I.emmc)
-    SH_I_groups
     SH_I_groups<-as.data.frame(SH_I_groups[complete.cases(SH_I_groups),])
     SH_I_groups<-SH_I_groups[order(
-      SH_I_groups$Year,SH_I_groups$ORF, SH_I_groups$DominantCommunity),]
+      SH_I_groups$Year, SH_I_groups$ORF),]
     SH_I_groups
     
-    plot(emmeans(SH_2014CoI, ~Year|~ORF+DominantCommunity), comparisons = TRUE) +
-      coord_flip(xlim = NULL, ylim = NULL, expand = TRUE) + facet_wrap(ORF~DominantCommunity) +ggthe_bw
+    #write.csv(SH_I_groups,"Outputs/SH_ORF_Dominant_groups2.csv")
     
-    SH_Communities_I<-lmerTest::lmer(logTot.SH ~ Year * ORF * Community + (1|Colony), data=data.Uva)
-    summary(SH_Communities_I)
-    #step(SH_Communities_I)
+# plot(emmeans(SH_2014CoI, ~Year|~DominantCommunity), comparisons = TRUE) + coord_flip(xlim = NULL, ylim = NULL, expand = TRUE) + facet_wrap(~DominantITS2)+ ggthe_bw
     
-    SH_CI.emmc<-emmeans(SH_Communities_I, ~Year*ORF*Community)
-    SH_CI_groups<-cld(SH_CI.emmc)
-    SH_CI_groups<-as.data.frame(SH_CI_groups[complete.cases(SH_CI_groups),])
-    SH_CI_groups<-SH_CI_groups[order(SH_CI_groups$Year,SH_CI_groups$ORF, SH_CI_groups$Community),]
-    SH_CI_groups
-    #write.csv(SH_groups,"SH_Communities_multicomp.csv")
 ```   
 
 ```   {r}
     
-SH_2014ComI <- ggplot(data.Uva, aes (Year.2, logTot.SH, colour=factor(DominantCommunity))) +  ggthe_bw + facet_wrap(~ORF) + ggtitle("a.")+
+SH_2014ComI <- ggplot(data.Uva, aes (Year.2, logTot.SH, colour=factor(DominantITS2))) +  ggthe_bw + facet_wrap(~ORF) + ggtitle("a.")+
+  #geom_point(alpha=0.5)+
+  #geom_line(aes(group=(Colony)))+
   stat_summary(fun.data = "mean_cl_boot",geom = "errorbar", width = 0.2,
                    position=position_dodge(width=0.5))+
   stat_summary(fun.data = "mean_cl_boot",geom = "point", 
                    position=position_dodge(width=0.5))+
   stat_summary(fun.y=mean, geom="line", position=position_dodge(width=0.5)) +
-   scale_colour_manual(values=c("blue3", "red3"),
+   scale_colour_manual(values=c("blue3","blue3" , "red3"),
                         guide = guide_legend(title.position = "top", nrow = 3),
                         name = "Dominant symbiont",
                         labels=c("Cladocopium", "Durusdinium"))+
       theme(legend.position="mone",
             strip.background =element_rect(fill="white"))+
    
-      scale_y_continuous(limits = c(-3, -0.8),
+      scale_y_continuous(limits = c(-3, -0.1),
             name="\n Total symbiont to host cell ratio (S/H)", 
             labels = (math_format(10^.x)),
             expand = c(0.0, 0)) + 
@@ -1079,10 +1119,10 @@ SH_2014ComI
 
 ```{r LmerC_ITS2}
 
-CH_Com <- ggplot(data.Uva, aes (Year.2, logC.SH, colour=factor(DominantCommunity))) + ggthe_bw+ ggtitle("b.")+
+CH_Com2ITS2 <- ggplot(data.Uva, aes (Year.2, logC.SH, colour=factor(DominantCommunity))) + ggthe_bw+ ggtitle("c.") + facet_grid(~ORF) + # geom_point(alpha=0.5)+
     
       stat_summary(fun.data = "mean_cl_boot",geom = "errorbar", width = 0.2, position=position_dodge(width=0.3))+
-      stat_summary(fun.data = "mean_cl_boot",geom = "point", position=position_dodge(width=0.3), alpha=0.5)+
+      stat_summary(fun.data = "mean_cl_boot",geom = "point", position=position_dodge(width=0.3))+
       stat_summary(fun.y=mean, geom="line", position=position_dodge(width=0.3)) +
       
       scale_colour_manual(values=c("blue3", "red3"),
@@ -1092,26 +1132,24 @@ CH_Com <- ggplot(data.Uva, aes (Year.2, logC.SH, colour=factor(DominantCommunity
      theme(legend.position="mone",
             strip.background =element_rect(fill="white"))+
    
-      scale_y_continuous(limits = c(-6, -0.7),
+      scale_y_continuous(limits = c(-6, -0.1),
             name="\n Cladocopium to host cell ratio (C/H)", 
             labels = (math_format(10^.x)),
             expand = c(0.0, 0)) + 
       scale_x_continuous(name="", 
                          breaks = c(2014, 2015, 2016),
                          labels = c(" ", " ", " ")) 
-CH_Com
-
-CH_Com2ITS2<-CH_Com + facet_grid(~ORF)
 CH_Com2ITS2
 
-CH_I<-lmer(logC.SH ~ Year* Community* ITS2_14 + (1|Colony), data=data.Uva)
+
+CH_I<-lmer(logC.SH ~ Year* DominantITS2 + (1|Colony), data=data.Uva)
     summary(CH_I)
     #step(CH_I)
 
-    CH_I.emmc<-emmeans(CH_I, ~Year*Community* ITS2_14)
+    CH_I.emmc<-emmeans(CH_I, ~Year*DominantITS2)
     CH_I_groups<-cld(CH_I.emmc)
     CH_I_groups<-as.data.frame(CH_I_groups[complete.cases(CH_I_groups),])
-    CH_I_groups<-CH_I_groups[order(CH_I_groups$Year,CH_I_groups$ITS2_14, CH_I_groups$Community),]
+    CH_I_groups<-CH_I_groups[order(CH_I_groups$DominantITS2,CH_I_groups$Year),]
     CH_I_groups
     #write.csv(CH_I_groups,"CH_I_groups.csv")
     ```
@@ -1120,11 +1158,11 @@ CH_I<-lmer(logC.SH ~ Year* Community* ITS2_14 + (1|Colony), data=data.Uva)
 
 ```{r LmerD_ITS2}
 
-DH_ComI <- ggplot(data.Uva, aes (Year.2, logD.SH, colour=factor(DominantCommunity))) + 
-      ggthe_bw+ ggtitle("c.")+
+DH_Com2ITS2 <- ggplot(data.Uva, aes (Year.2, logD.SH, colour=factor(D14Dominant))) +  # geom_point(alpha=0.5)+
+      ggthe_bw+ ggtitle("d.")+ facet_grid(~ORF) +
     
       stat_summary(fun.data = "mean_cl_boot",geom = "errorbar", width = 0.2, position=position_dodge(width=0.3))+
-      stat_summary(fun.data = "mean_cl_boot",geom = "point", position=position_dodge(width=0.3), alpha=0.5)+
+      stat_summary(fun.data = "mean_cl_boot",geom = "point", position=position_dodge(width=0.3))+
       stat_summary(fun.y=mean, geom="line", position=position_dodge(width=0.3)) +
       
       scale_colour_manual(values=c("blue", "red3"),
@@ -1135,7 +1173,7 @@ DH_ComI <- ggplot(data.Uva, aes (Year.2, logD.SH, colour=factor(DominantCommunit
             legend.box.background = element_rect(),
             strip.background =element_rect(fill="white"))+
    
-      scale_y_continuous(limits = c(-6, -0.7),
+      scale_y_continuous(limits = c(-6, -0.1),
             name="\n Durusdinium to host cell ratio (D/H)", 
             labels = (math_format(10^.x)),
             expand = c(0.0, 0)) + 
@@ -1144,32 +1182,28 @@ DH_ComI <- ggplot(data.Uva, aes (Year.2, logD.SH, colour=factor(DominantCommunit
                         # labels = c(" Aug \n 2014", " Aug \n 2015", " Apr \n 2016"))
                         labels = c(" ", " ", " "))
 
-DH_Com2ITS2<-DH_ComI + facet_grid(~ORF)
 DH_Com2ITS2
 
-DH_LM_ITS2<-lmer(logD.SH ~ Year* Community* ITS2_14 + (1|Colony), data=data.Uva)
+DH_LM_ITS2<-lmer(logD.SH ~ Year* DominantITS2 + (1|Colony), data=data.Uva)
     summary(DH_LM_ITS2)
     #step(DH_LM_ITS2)
 
-library(emmeans)
-    DH_I.emmc<-emmeans(DH_LM_ITS2, ~Year*Community* ITS2_14)
+    DH_I.emmc<-emmeans(DH_LM_ITS2, ~Year*DominantITS2)
     DH_groups_I<-cld(DH_I.emmc)
     DH_groups_I<-as.data.frame(DH_groups_I[complete.cases(DH_groups_I),])
-    DH_groups_I<-DH_groups_I[order(DH_groups_I$Year,DH_groups_I$ITS2_14, DH_groups_I$Community),]
+    DH_groups_I<-DH_groups_I[order(DH_groups_I$DominantITS2,DH_groups_I$Year),]
     DH_groups_I
-    #write.csv(DH_groups_I,"DH_I_groups.csv")
+    #write.csv(DH_groups_I,"Output/DH_I_groups.csv")
     ```
 
-### Figure 3: qPCR 
+### Figure 3: qPCR by Pocillopora lineage
 
 ```{r}
 Figure_3<-grid.arrange(SH_2014ComI, CH_Com2ITS2, DH_Com2ITS2,nrow=3)
 
-# ggsave(file="Outputs/Figure_3.svg", plot=Figure_3, width=7, height=11)
+# ggsave(file="Outputs/Figure_3c.svg", plot=Figure_3, width=7, height=11)
 
 ```
-
-
 ---
 
 ## 10. Supplmenmtary C/H D/H dynamics
@@ -1178,7 +1212,7 @@ Select data
 
 ```{r}
 log_Log.data<-data.Uva[,c("Colony","Year.2", "C.SH", "D.SH", 
-                          "D14Community", "Community","ITS2_14", "ORF")]
+                          "D14Community", "Community","ITS2_14", "ORF", "DominantITS2")]
 
 log_Log.data<-log_Log.data %>%
   filter(Year.2 != "2015")
@@ -1193,7 +1227,7 @@ log_Log.data$logD[which(log_Log.data$D.SH==0)] <- -6
 Plot Black and White 
 
 ```{r}
-Community_Changes2 <- ggplot (log_Log.data, aes(logC, logD, gropup=Colony)) +
+Community_Changes2 <- ggplot (log_Log.data, aes(logC, logD, gropup=Colony, shape=ORF)) +
 
   geom_abline(intercept=0, slope=1, linetype=1, color="black")+
   geom_abline(intercept=-1, slope=1, linetype=2, color="black")+
@@ -1260,7 +1294,7 @@ Community_Changes3 <- ggplot (log_Log.data, aes(logC, logD, gropup=Colony, colou
   
 Community_Changes3
 
-# ggsave(file="FigAndrewsFavoriteGraph_qPCRb.svg", plot=Community_Changes3, width=5.6, height=6)
+# ggsave(file="FigAndrewsFavoriteGraph_Colony.svg", plot=Community_Changes3, width=5.6, height=6)
 
 ```
 
@@ -1281,8 +1315,8 @@ Community_Changes4 <- ggplot (log_Log.data, aes(logC, logD, gropup=Colony, colou
   geom_abline(intercept=5, slope=1, linetype=2, color="gray")+
   scale_colour_manual(values=c("blue","purple", "red"),
                         guide = guide_legend(title.position = "top", nrow = 3),
-                        name = "Main ITS2 types (2014)",
-                        labels=c("C_a", "C_b", "D1"))+
+                        name = "Dominant ITS2 types (2014)",
+                        labels=c("C1d", "C1b-c", "D1"))+
   
   ggthe_bw + theme(legend.position="bottom", 
                     legend.box = "horizontal")+
@@ -1293,10 +1327,10 @@ Community_Changes4 <- ggplot (log_Log.data, aes(logC, logD, gropup=Colony, colou
   geom_path(size = 1,arrow =
               arrow(type = "open", angle = 30, length = unit(0.1, "inches")))+
   
-  annotate("text", x = c(seq(-5.1, -1.1, by=1)), y = -0.9, label = c(
-    "10,0000C : D", "1,000C : 1D", "100C : 1D","10C : 1D", "C : D"), angle = 45)+
+ annotate("text", x = c(seq(-5.1, -1.1, by=1)), y = -0.9, label = c(
+    "10,0000D : 1C", "1,000D : 1C", "100D : 1C","10D : 1C", "C : D"), angle = 45)+
   annotate("text", x = -0.9, y = c(seq(-4.7, -1.7, by=1)), label = c(
-    "1C : 10,000D", "1C : 1,000D", "1C : 100D",  "1C : 10D"), angle = 45)
+    "1D : 10,000C", "1D : 1,000C", "1D : 100C",  "1D : 10C"), angle = 45)
   
 Community_Changes4
 
@@ -1304,9 +1338,8 @@ Community_Changes4
 ``` 
 
 
-
 ```{r}
-Community_Changes5 <- ggplot (log_Log.data, aes(logC, logD, gropup=Colony, colour=ORF)) +
+Community_Changes5 <- ggplot (log_Log.data, aes(logC, logD, gropup=Colony, colour=ITS2_14)) +
 
   geom_abline(intercept=0, slope=1, linetype=1, color="black")+
   geom_abline(intercept=-1, slope=1, linetype=2, color="black")+
@@ -1321,8 +1354,8 @@ Community_Changes5 <- ggplot (log_Log.data, aes(logC, logD, gropup=Colony, colou
   geom_abline(intercept=5, slope=1, linetype=2, color="gray")+
   scale_colour_manual(values=c("blue","purple", "red"),
                         guide = guide_legend(title.position = "top", nrow = 3),
-                        name = "Detected symbionts (2014)",
-                        labels=c("Cladocopium", "Mixed", "Durusdinium"))+
+                        name = "Dominant symbiont 2014)",
+                        labels=c("C1d", "C1bc", "D1"))+
   
   ggthe_bw + theme(legend.position="bottom")+
   scale_x_continuous(limits = c(-6,-0.1), "log10 (C/H cell ratio)")+
@@ -1333,11 +1366,12 @@ Community_Changes5 <- ggplot (log_Log.data, aes(logC, logD, gropup=Colony, colou
               arrow(type = "open", angle = 30, length = unit(0.1, "inches")))+
   
   annotate("text", x = c(seq(-5.1, -1.1, by=1)), y = -0.9, label = c(
-    "10,0000C : D", "1,000C : 1D", "100C : 1D","10C : 1D", "C : D"), angle = 45)+
+    "10,0000D : 1C", "1,000D : 1C", "100D : 1C","10C : 1D", "C : D"), angle = 45)+
   annotate("text", x = -0.9, y = c(seq(-4.7, -1.7, by=1)), label = c(
-    "1C : 10,000D", "1C : 1,000D", "1C : 100D",  "1C : 10D"), angle = 45)
+    "1D : 10,000C", "1D : 1,000C", "1D : 100C",  "1D : 10C"), angle = 45)
   
 Community_Changes5
+#ggsave(file="FigAndrewsFavoriteGraph_ORF_ITS2.svg", plot=Community_Changes5, width=6, height=6)
 
 ```
 
