@@ -5,8 +5,9 @@
 .Ruserdata
 .Rproj.user/
 *.Rproj
+
 # Outputs
 README.html
 .DS_Store
 .Rproj.user
-.jpg
+*.jpg
