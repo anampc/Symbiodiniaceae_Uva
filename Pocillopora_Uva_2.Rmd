@@ -1119,7 +1119,7 @@ SH_2014ComI
 
 ```{r LmerC_ITS2}
 
-CH_Com2ITS2 <- ggplot(data.Uva, aes (Year.2, logC.SH, colour=factor(DominantCommunity))) + ggthe_bw+ ggtitle("c.") + facet_grid(~ORF) + # geom_point(alpha=0.5)+
+CH_Com2ITS2 <- ggplot(data.Uva, aes (Year.2, logC.SH, colour=factor(D14Dominant))) + ggthe_bw+ ggtitle("c.") + facet_grid(~ORF) + #geom_point(alpha=0.5)+
     
       stat_summary(fun.data = "mean_cl_boot",geom = "errorbar", width = 0.2, position=position_dodge(width=0.3))+
       stat_summary(fun.data = "mean_cl_boot",geom = "point", position=position_dodge(width=0.3))+
@@ -1201,7 +1201,12 @@ DH_LM_ITS2<-lmer(logD.SH ~ Year* DominantITS2 + (1|Colony), data=data.Uva)
 ```{r}
 Figure_3<-grid.arrange(SH_2014ComI, CH_Com2ITS2, DH_Com2ITS2,nrow=3)
 
+Figure_3_InitailCommunity<-grid.arrange(CH_Com2ITS2, DH_Com2ITS2,nrow=2)
+
 # ggsave(file="Outputs/Figure_3c.svg", plot=Figure_3, width=7, height=11)
+
+# ggsave(file="Outputs/Figure_3d.png", plot=Figure_3_InitailCommunity, width=7, height=7)
+
 
 ```
 ---
@@ -1300,7 +1305,7 @@ Community_Changes3
 
 ```{r}
 
-Community_Changes4 <- ggplot (log_Log.data, aes(logC, logD, gropup=Colony, colour=ITS2_14)) +
+Community_Changes4 <- ggplot (log_Log.data, aes(logC, logD, gropup=Colony, colour=ITS2_14, shape=ORF)) +
 
   geom_abline(intercept=0, slope=1, linetype=1, color="black")+
   geom_abline(intercept=-1, slope=1, linetype=2, color="black")+
@@ -1334,7 +1339,7 @@ Community_Changes4 <- ggplot (log_Log.data, aes(logC, logD, gropup=Colony, colou
   
 Community_Changes4
 
-#ggsave(file="FigAndrewsFavoriteGraph_ITS2.svg", plot=Community_Changes4, width=6, height=6)
+#ggsave(file="FigAndrewsFavoriteGraph_ITS2.png", plot=Community_Changes4, width=6, height=7.1)
 ``` 
 
 
@@ -1374,4 +1379,58 @@ Community_Changes5
 #ggsave(file="FigAndrewsFavoriteGraph_ORF_ITS2.svg", plot=Community_Changes5, width=6, height=6)
 
 ```
+
+
+## 5c. Changes in the number of colonies dominated by each genus considering mortality
+
+* Fisher test including initially (Aug 2014) 50/50 colonies. Both colonies placed in the D-dominated category to be conservative.
+
+```{r}
+# Only type 1 colonies (n=23)
+
+Input =("
+Year    C     D
+2014    9    14
+2016    2    18
+")
+
+Matriz <- as.matrix(read.table(textConnection(Input),
+                               header=TRUE, 
+                               row.names=1))
+fisher.test(Matriz,
+            alternative="two.sided")
+
+
+# Type 1 and type 3 colonies
+
+Input =("
+Year    C     D
+2014    15    14
+2016    4     18
+")
+
+Matriz <- as.matrix(read.table(textConnection(Input),
+                               header=TRUE, 
+                               row.names=1))
+fisher.test(Matriz,
+            alternative="two.sided")
+
+
+
+# Spp changes
+
+Input =("
+Year    I     II
+2014    23    6
+2016    20    2
+")
+
+Matriz <- as.matrix(read.table(textConnection(Input),
+                               header=TRUE, 
+                               row.names=1))
+fisher.test(Matriz,
+            alternative="two.sided")
+
+```
+
 
