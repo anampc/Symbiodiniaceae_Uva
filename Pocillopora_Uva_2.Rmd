@@ -1336,10 +1336,17 @@ Select data
 
 ```{r}
 log_Log.data<-data.Uva[,c("Colony","Year.2", "C.SH", "D.SH", 
-                          "D14Community", "Community","ITS2_14", "ORF", "DominantITS2")]
+                          "D14Community", "Community","ITS2_14",
+                          "ORF", "DominantITS2", "Mortality", "Mor_ITS2")]
 
 log_Log.data<-log_Log.data %>%
   filter(Year.2 != "2015")
+
+log_Log.data$Yr<-as.factor(log_Log.data$Year.2)
+log_Log.data$Yr_M<-as.factor(
+                            paste(log_Log.data$Yr,
+                                  log_Log.data$Mortality,
+                                  sep = "_"))
 
 log_Log.data$logC<-log10(log_Log.data$C.SH)
 log_Log.data$logD<-log10(log_Log.data$D.SH)
@@ -1500,6 +1507,53 @@ Community_Changes5
 ```
 
 
+```{r}
+Community_Changes6 <- ggplot (log_Log.data, aes(logC, logD, gropup=Colony, colour=ITS2_14)) +
+
+  geom_abline(intercept=0, slope=1, linetype=1, color="black")+
+  geom_abline(intercept=-1, slope=1, linetype=2, color="black")+
+  geom_abline(intercept=-2, slope=1, linetype=2, color="darkgray")+
+  geom_abline(intercept=-3, slope=1, linetype=2, color="gray")+
+  geom_abline(intercept=-4, slope=1, linetype=2, color="gray")+
+  geom_abline(intercept=-5, slope=1, linetype=2, color="gray")+
+  geom_abline(intercept=1, slope=1, linetype=2, color="black")+
+  geom_abline(intercept=2, slope=1, linetype=2, color="darkgray")+
+  geom_abline(intercept=3, slope=1, linetype=2, color="gray")+
+  geom_abline(intercept=4, slope=1, linetype=2, color="gray")+
+  geom_abline(intercept=5, slope=1, linetype=2, color="gray")+
+  scale_colour_manual(values=c("blue","purple", "red"),
+        guide = guide_legend(title.position = "top", nrow = 3),
+                         name = "Initial ITS2",
+                        labels=c("Cd1", "C1b-c", "D1"))+
+  #scale_colour_manual(values=c("skyblue1", "blue2", "blue4",
+  #                        "darkorchid1","darkorchid3",
+  #                        "red1", "red3", "red4"))+
+  
+  ggthe_bw + 
+  theme(legend.position="bottom", 
+                    legend.box = "vertical")+
+  #theme(legend.position="none")+
+  
+  scale_x_continuous(limits = c(-6,-0.1), 
+                     "Cladocopium abundance (log10 C/H))")+
+  scale_y_continuous(limits = c(-6,-0.1), 
+                     "Durusdinium abundance (log10 D/H))") +
+  geom_point(aes(shape=Yr_M),
+             alpha=0.5, size=3) +
+  geom_path(size = 0.5 , arrow =
+              arrow(type = "open", angle = 30,
+                    length = unit(0.1, "inches")))+
+  
+ annotate("text", x = c(seq(-5.1, -1.1, by=1)), y = -0.9, label = c(
+    "10,0000D : 1C", "1,000D : 1C", "100D : 1C","10D : 1C", "C : D"), angle = 45)+
+  annotate("text", x = -0.9, y = c(seq(-4.7, -1.7, by=1)), label = c(
+    "1D : 10,000C", "1D : 1,000C", "1D : 100C",  "1D : 10C"), angle = 45)
+  
+Community_Changes6
+
+#ggsave(file="LogLog_TYMortality_labelpoints.svg", plot=Community_Changes6, width=6, height=7.1)
+
+```
 ## 5c. Changes in the number of colonies dominated by each genus considering mortality
 
 * Fisher test including initially (Aug 2014) 50/50 colonies. Both colonies placed in the D-dominated category to be conservative.
