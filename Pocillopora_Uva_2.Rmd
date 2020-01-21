@@ -1410,11 +1410,11 @@ Community_Changes3 <- ggplot (log_Log.data, aes(logC, logD, gropup=Colony, colou
     #                    name = "Detected symbionts (2014)",
      #                   labels=c("Cladocopium", "Mixed", "Durusdinium"))+
   
-  ggthe_bw + theme(legend.position="bottom")+
+  ggthe_bw + theme(legend.position="none")+
   scale_x_continuous(limits = c(-6,-0.1), "log10 (C/H cell ratio)")+
   scale_y_continuous(limits = c(-6,-0.1), "log10 (D/H cell ratio)") +
   
-  geom_point(aes(shape=ORF), alpha=0.5, size=4) +
+  geom_point(aes(shape=Yr), alpha=0.5, size=4) +
   geom_path(size = 1,arrow =
               arrow(type = "open", angle = 30, length = unit(0.1, "inches")))+
   
@@ -1425,7 +1425,7 @@ Community_Changes3 <- ggplot (log_Log.data, aes(logC, logD, gropup=Colony, colou
   
 Community_Changes3
 
-# ggsave(file="FigAndrewsFavoriteGraph_Colony.svg", plot=Community_Changes3, width=5.6, height=6)
+# ggsave(file="FigAndrewsFavoriteGraph_Colony.svg", plot=Community_Changes3, width=6, height=6)
 
 ```
 
@@ -1531,18 +1531,18 @@ Community_Changes6 <- ggplot (log_Log.data, aes(logC, logD, gropup=Colony, colou
   
   ggthe_bw + 
   theme(legend.position="bottom", 
-                    legend.box = "vertical")+
+                   legend.box = "vertical")+
   #theme(legend.position="none")+
   
   scale_x_continuous(limits = c(-6,-0.1), 
                      "Cladocopium abundance (log10 C/H))")+
   scale_y_continuous(limits = c(-6,-0.1), 
                      "Durusdinium abundance (log10 D/H))") +
-  geom_point(aes(shape=Yr_M),
+  geom_point(aes(shape=Mortality),
              alpha=0.5, size=3) +
   geom_path(size = 0.5 , arrow =
-              arrow(type = "open", angle = 30,
-                    length = unit(0.1, "inches")))+
+             arrow(type = "open", angle = 30,
+                  length = unit(0.1, "inches")))+
   
  annotate("text", x = c(seq(-5.1, -1.1, by=1)), y = -0.9, label = c(
     "10,0000D : 1C", "1,000D : 1C", "100D : 1C","10D : 1C", "C : D"), angle = 45)+
@@ -1551,7 +1551,8 @@ Community_Changes6 <- ggplot (log_Log.data, aes(logC, logD, gropup=Colony, colou
   
 Community_Changes6
 
-#ggsave(file="LogLog_TYMortality_labelpoints.svg", plot=Community_Changes6, width=6, height=7.1)
+
+#ggsave(file="LogLog_labels.svg", plot=Community_Changes6, width=6, height=6)
 
 ```
 ## 5c. Changes in the number of colonies dominated by each genus considering mortality
