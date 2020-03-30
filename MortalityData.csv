@@ -1,88 +1,88 @@
-Sample,Mortality
-14_256-1,No
-15_256-1,Partial
-16_256-1,Almost total
-15_257-1,Partial
-16_257-1,Almost total
-14_260-1,No
-15_260-1,No
-16_260-1,No
-16_262-1,Partial
-14_278-1,No
-15_278-1,No
-16_278-1,No
-14_284-1,No
-15_284-1,No
-14_265-1,No
-15_265-1,No
-16_265-1,Partial
-14_266-1,No
-15_266-1,No
-16_284-1,No
-14_285-1,No
-15_285-1,No
-16_285-1,Partial
-14_287-1,No
-15_287-1,No
-16_287-1,Almost total
-14_289-1,No
-15_289-1,No
-16_289-1,No
-14_290-1,No
-15_290-1,No
-16_290-1,No
-14_295-1,No
-15_295-1,No
-16_295-1,No
-16_266-1,Partial
-14_267,No
-15_267,No
-16_267,No
-14_268-1,No
-16_268-1,No
-14_269-1,No
-15_269-1,No
-16_269-1,No
-14_270-1A,No
-15_270-1A,Partial
-16_270-1A,Partial
-14_271-1,No
-16_271-1,No
-14_272-1,No
-15_272-1,No
-16_272-1,No
-14_273-1,No
-15_273-1,No
-16_273-1,No
-14_274-1,No
-15_274-1,No
-14_275-1,No
-15_275-1,No
-16_275-1,No
-14_298-1,No
-15_298-1,No
-16_298-1,No
-14_329-1,No
-15_329-1,No
-16_329-1,No
-14_330-1,No
-15_330-1,No
-16_330-1,Almost total
-14_334-1,No
-15_334-1,No
-16_334-1,Partial
-14_336-1A,No
-15_336-1A,No
-16_336-1A,Almost total
-14_339-1A,No
-15_339-1A,No
-16_339-1A,Almost total
-14_340-1A,No
-15_340-1A,No
-16_340-1A,Almost total
-14_257-1,No
-15_268-1,No
-14_262-1,No
-15_262-1,No
-15_271-1,No
-16_274-1,No
+Sample,Mortality,ID_Glynn,ID_Palacio,ORF,ITS_2
+14_256-1,No,P. dam,P. dam,Type_3,C1d
+15_256-1,Partial,P. dam,P. dam,Type_3,C1d
+16_256-1,Almost total,P. dam,P. dam,Type_3,C1d
+15_257-1,Partial,P. dam,P. dam,Type_3,C1d
+16_257-1,Almost total,P. dam,P. dam,Type_3,C1d
+14_260-1,No,P. dam,P. dam,Type_3,C1d
+15_260-1,No,P. dam,P. dam,Type_3,C1d
+16_260-1,No,P. dam,P. dam,Type_3,C1d
+16_262-1,Partial,P. dam,P. dam,Type_3,C1d
+14_278-1,No,P. dam,P. ver,Type_1,D1
+15_278-1,No,P. dam,P. ver,Type_1,D1
+16_278-1,No,P. dam,P. ver,Type_1,D1
+14_284-1,No,P. ver,P. ver,Type_1,D1
+15_284-1,No,P. ver,P. ver,Type_1,D1
+14_265-1,No,P. ver,P. ver,Type_1,C1b-c
+15_265-1,No,P. ver,P. ver,Type_1,C1b-c
+16_265-1,Partial,P. ver,P. ver,Type_1,C1b-c
+14_266-1,No,P. ver,P. ver,Type_1,C1b-c
+15_266-1,No,P. ver,P. ver,Type_1,C1b-c
+16_284-1,No,P. ver,P. ver,Type_1,D1
+14_285-1,No,P. ver,P. ver,Type_1,C1b-c
+15_285-1,No,P. ver,P. ver,Type_1,C1b-c
+16_285-1,Partial,P. ver,P. ver,Type_1,C1b-c
+14_287-1,No,P. ver,P. ver,Type_1,C1b-c
+15_287-1,No,P. ver,P. ver,Type_1,C1b-c
+16_287-1,Almost total,P. ver,P. ver,Type_1,D1
+14_289-1,No,P. cap,P. ver,Type_1,D1
+15_289-1,No,P. cap,P. ver,Type_1,D1
+16_289-1,No,P. cap,P. ver,Type_1,D1
+14_290-1,No,P. ver,P. ver,Type_1,D1
+15_290-1,No,P. ver,P. ver,Type_1,D1
+16_290-1,No,P. ver,P. ver,Type_1,D1
+14_295-1,No,P. ver,P. ver,Type_1,D1
+15_295-1,No,P. ver,P. ver,Type_1,D1
+16_295-1,No,P. ver,P. ver,Type_1,D1
+16_266-1,Partial,P. ver,P. ver,Type_1,D1
+14_267,No,P. cap,P. eyd,Type_1,D1
+15_267,No,P. cap,P. eyd,Type_1,D1
+16_267,No,P. cap,P. eyd,Type_1,D1
+14_268-1,No,P. cap,P. eyd,Type_1,C1b-c
+16_268-1,No,P. cap,P. eyd,Type_1,C1b-c
+14_269-1,No,P. ver,P. ver,Type_1,D1
+15_269-1,No,P. ver,P. ver,Type_1,D1
+16_269-1,No,P. ver,P. ver,Type_1,D1
+14_270-1A,No,P. ver,P. ver,Type_1,C1b-c
+15_270-1A,Partial,P. ver,P. ver,Type_1,C1b-c
+16_270-1A,Partial,P. ver,P. ver,Type_1,D1
+14_271-1,No,P. ver,P. ver,Type_1,C1b-c
+16_271-1,No,P. ver,P. ver,Type_1,D1
+14_272-1,No,P. dam,P. dam,Type_1,D1
+15_272-1,No,P. dam,P. dam,Type_1,D1
+16_272-1,No,P. dam,P. dam,Type_1,D1
+14_273-1,No,P. dam,P. dam,Type_1,D1
+15_273-1,No,P. dam,P. dam,Type_1,D1
+16_273-1,No,P. dam,P. dam,Type_1,D1
+14_274-1,No,P. ver,P. ver,Type_1,D1
+15_274-1,No,P. ver,P. ver,Type_1,D1
+14_275-1,No,P. ver,P. ver,Type_1,D1
+15_275-1,No,P. ver,P. ver,Type_1,D1
+16_275-1,No,P. ver,P. ver,Type_1,D1
+14_298-1,No,P. ver,P. ver,Type_1,D1
+15_298-1,No,P. ver,P. ver,Type_1,D1
+16_298-1,No,P. ver,P. ver,Type_1,D1
+14_329-1,No,P. ver,P. ver,Type_1,D1
+15_329-1,No,P. ver,P. ver,Type_1,D1
+16_329-1,No,P. ver,P. ver,Type_1,D1
+14_330-1,No,P. dam,P. dam,Type_3,C1d
+15_330-1,No,P. dam,P. dam,Type_3,C1d
+16_330-1,Almost total,P. dam,P. dam,Type_3,C1d
+14_334-1,No,P. cap,P. ver,Type_1,D1
+15_334-1,No,P. cap,P. ver,Type_1,D1
+16_334-1,Partial,P. cap,P. ver,Type_1,D1
+14_336-1A,No,P. ver,P. ver,Type_1,C1b-c
+15_336-1A,No,P. ver,P. ver,Type_1,C1b-c
+16_336-1A,Almost total,P. ver,P. ver,Type_1,D1
+14_339-1A,No,P. ver,P. ver,Type_1,C1b-c
+15_339-1A,No,P. ver,P. ver,Type_1,C1b-c
+16_339-1A,Almost total,P. ver,P. ver,Type_1,D1
+14_340-1A,No,P. dam,P. dam,Type_3,C1d
+15_340-1A,No,P. dam,P. dam,Type_3,C1d
+16_340-1A,Almost total,P. dam,P. dam,Type_3,C1d
+14_257-1,No,P. dam,P. dam,Type_3,C1d
+15_268-1,No,P. cap,P. eyd,Type_1,D1
+14_262-1,No,P. dam,P. dam,Type_3,C1d
+15_262-1,No,P. dam,P. dam,Type_3,C1d
+15_271-1,No,P. ver,P. ver,Type_1,C1b-c
+16_274-1,No,P. ver,P. ver,Type_1,D1

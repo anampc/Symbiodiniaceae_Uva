@@ -12,3 +12,4 @@ README.html
 .Rproj.user
 *.jpg
 *.JPG
+/Documents/*
