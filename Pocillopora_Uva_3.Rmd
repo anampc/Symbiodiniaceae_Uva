@@ -1294,8 +1294,9 @@ CH_Com2ITS2 <- ggplot(data.Uva, aes (Year.2, logC.SH, colour=factor(D14Dominant)
 CH_Com2ITS2
 
 
-CH_I<-lmer(logC.SH ~ Year* DominantITS2 + (1|Colony), data=data.Uva)
+CH_I<-lmerTest::lmer(logC.SH ~ Year* DominantITS2 + (1|Colony), data=data.Uva)
     summary(CH_I)
+    anova (CH_I)
     #step(CH_I)
 
     CH_I.emmc<-emmeans(CH_I, ~Year*DominantITS2)
