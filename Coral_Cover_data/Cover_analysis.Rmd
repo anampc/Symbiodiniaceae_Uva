@@ -1,0 +1,325 @@
+---
+title: "Chiriqui benthic cover"
+author: "Ana Palacio-Castro"
+date: "`r Sys.Date()`"
+output:
+  html_document:
+    toc: true
+    df_print: paged
+    theme: united
+bibliography: packages.bib
+nocite: '@*'
+---
+
+```{r Knitr_setup, include=FALSE}
+knitr::opts_chunk$set(
+	echo = TRUE,
+	message = FALSE,
+	warning = FALSE
+)
+```
+
+```{r libraries, include=FALSE}
+library(ggplot2)
+#library(gridExtra)
+
+
+theme_set (theme_bw() + theme(panel.grid.major = element_blank(),
+                              panel.grid.minor = element_blank(), 
+                              axis.line = element_line(colour = "black"),
+                              legend.position="none",
+                              axis.text.x = element_text(angle = 90, vjust = 0.5),
+                              plot.title = element_text(size=12, face="bold"),
+                              #panel.border = element_rect(colour = "black", fill=NA, size=1)
+                              panel.border = element_blank()
+                              ))
+```
+
+# Coral cover data 
+
+## Wide format
+
+```{r data, include=FALSE}
+
+# Select data
+  cover <- read.csv("All_Data_Chiriqui.csv", header=TRUE) # Select file: Coral_Cover_ETP.csv
+  
+# Convert to numeric variable the response variable and convert to nominal variables the factors
+  cover$Pocillopora <- as.numeric(cover$Pocillopora) # convert to numeric variable
+  cover$Other <- as.numeric(cover$Other) # convert to numeric variable
+  cover$Millepora <- as.numeric(cover$Millepora) # convert to numeric variable
+  
+  cover$DataSet <- as.factor(cover$DataSet)               # convert to nominal factors
+  cover$Site <- as.factor(cover$Site) 
+  
+  cover$YR <- as.numeric(cover$YR)
+  #cover$Year <- as.numeric((cover$Year)-1970)  # transform years to begin in 0
+  summary(cover)
+```
+
+### Explore
+
+#### *Pocillopora*
+
+* *Pocillopora* % cover (basic stats)
+
+```{r}
+# Pocillopora mean, median, 
+
+Pocillopora_plot <- ggplot(cover, aes(x=YR, y=Pocillopora)) +
+  geom_boxplot(aes(group=YR), outlier.shape = NA) +
+  stat_boxplot(aes(group=YR), geom = 'errorbar')+
+  #geom_smooth(method = lm, se=FALSE, linetype = "dashed", colour="red")+
+  #geom_smooth(span = 0.2, se=T, colour="darkgray")+ 
+  stat_summary(fun.y=mean, geom="line") +
+  
+  #geom_point(aes(colour=Thermal_regime), alpha=0.5) + ylim(0,79) +
+  scale_y_continuous("Pocillopora cover (%)", limits = c(-2, 101), breaks = seq(0, 100, by=20), expand = c(0,0))+
+  #geom_line(aes(colour=Transect))+
+  scale_x_continuous("", limits = c(1979, 2019),
+                     breaks = seq(1980, 2018, by=2), expand = c(0,0))+
+  #scale_color_manual(values=my_colours) + labs(title="b")+
+  #annotate("text", x = 1983, y = 70, label = "*", size=8)+
+  annotate("rect", xmin = 1982, xmax = 1983, ymin = 0, ymax = 80,  alpha = .2, fill="red")+
+  annotate("rect", xmin = 1997, xmax = 1998, ymin = 0, ymax = 80,  alpha = .2, fill="red")+
+  annotate("rect", xmin = 2015, xmax = 2016, ymin = 0, ymax = 80,  alpha = .2, fill="red")
+Pocillopora_plot+facet_grid(DataSet~.)
+```
+
+* *Pocillopora* individual transects (all data)
+
+```{r}
+#Pocillopora cover (raw data =  check transects)
+
+Pocillopora_raw <- ggplot(cover, aes(x=YR, y=Pocillopora)) +
+  stat_summary(fun.y=mean, geom="line", size=2 ) +
+  scale_y_continuous("Pocillopora cover (%)", breaks = seq(0, 100, by=20), expand = c(0.02,0.02))+
+  geom_line(aes(colour=Transect))+
+  geom_point(aes(colour=Transect))+
+  scale_x_continuous("", limits = c(1979, 2019),
+                     breaks = seq(1980, 2018, by=2), expand = c(0,0))+
+  #scale_color_manual(values=my_colours) + labs(title="b")+
+  #annotate("text", x = 1983, y = 70, label = "*", size=8)+
+  annotate("rect", xmin = 1982, xmax = 1983, ymin = 0, ymax = 80,  alpha = .2, fill="red")+
+  annotate("rect", xmin = 1997, xmax = 1998, ymin = 0, ymax = 80,  alpha = .2, fill="red")+
+  annotate("rect", xmin = 2015, xmax = 2016, ymin = 0, ymax = 80,  alpha = .2, fill="red")
+Pocillopora_raw+facet_grid(DataSet~., scales = "free_y")
+```
+
+* *Pocillopora* 1m2 data
+
+```{r}
+Pocillopora_raw_1m2 <- ggplot(data=subset(cover, DataSet=="Uva_1m2"), aes(x=YR, y=Pocillopora)) +
+  stat_summary(fun.y=mean, geom="line", size=2 ) +
+  scale_y_continuous("Pocillopora cover (%)", breaks = seq(0, 100, by=20), expand = c(0.02,0.02))+
+  geom_line(aes(colour=Transect))+
+  geom_point(aes(colour=Transect, shape=Transect))+
+  scale_x_continuous("", limits = c(1993, 2019),
+                     breaks = seq(1993, 2018, by=2), expand = c(0,0))+
+  theme(legend.position="bottom")+
+  annotate("rect", xmin = 1982, xmax = 1983, ymin = 0, ymax = 80,  alpha = .2, fill="red")+
+  annotate("rect", xmin = 1997, xmax = 1998, ymin = 0, ymax = 80,  alpha = .2, fill="red")+
+  annotate("rect", xmin = 2015, xmax = 2016, ymin = 0, ymax = 80,  alpha = .2, fill="red")
+Pocillopora_raw_1m2
+
+
+Pocillopora_raw_1m2+ scale_x_continuous("", limits = c(2010, 2019),
+                     breaks = seq(1993, 2018, by=2), expand = c(0,0))
+```
+
+* *Pocillopora* chain data
+
+```{r}
+Pocillopora_raw_chains <- ggplot(data=subset(cover, DataSet=="UvRf-Chains"), aes(x=YR, y=Pocillopora)) +
+  stat_summary(fun.y=mean, geom="line", size=2 ) +
+  scale_y_continuous("Pocillopora cover (%)", breaks = seq(0, 100, by=20), expand = c(0.02,0.02))+
+  geom_line(aes(colour=Transect))+
+  geom_point(aes(colour=Transect, shape=Transect))+
+  scale_x_continuous("", limits = c(1996, 2019),
+                     breaks = seq(1980, 2018, by=2), expand = c(0,0))+
+  theme(legend.position="bottom")+
+  annotate("rect", xmin = 1982, xmax = 1983, ymin = 0, ymax = 80,  alpha = .2, fill="red")+
+  annotate("rect", xmin = 1997, xmax = 1998, ymin = 0, ymax = 80,  alpha = .2, fill="red")+
+  annotate("rect", xmin = 2015, xmax = 2016, ymin = 0, ymax = 80,  alpha = .2, fill="red")
+Pocillopora_raw_chains
+```
+
+
+#### Non-Pocillopora scleractinians 
+
+* Coral cover (basic stats)
+
+```{r}
+Other_plot <- ggplot(cover, aes(x=YR, y=Other)) +
+  #geom_smooth(method = lm, se=FALSE, linetype = "dashed", colour="red")+
+  #geom_smooth(span = 0.2, se=T, colour="darkgray")+ 
+  geom_boxplot(aes(group=YR), outlier.shape = NA) +
+  stat_boxplot(aes(group=YR), geom = 'errorbar')+
+  stat_summary(fun.y=mean, geom="line") +
+  
+  #geom_point(aes(colour=Thermal_regime), alpha=0.5) + ylim(0,79) +
+  scale_y_continuous("Other scleractinians cover (%)", breaks = seq(0, 15, by=5), expand = c(0,0))+
+  scale_x_continuous("", limits = c(1979, 2019),
+                     breaks = seq(1980, 2018, by=2), expand = c(0,0))+
+  #scale_color_manual(values=my_colours) + labs(title="b")+
+  #annotate("text", x = 1983, y = 70, label = "*", size=8)+
+  annotate("rect", xmin = 1982, xmax = 1983, ymin = 0, ymax = 14,  alpha = .2, fill="red")+
+  annotate("rect", xmin = 1997, xmax = 1998, ymin = 0, ymax = 14,  alpha = .2, fill="red")+
+  annotate("rect", xmin = 2015, xmax = 2016, ymin = 0, ymax = 14,  alpha = .2, fill="red")
+Other_plot+facet_grid(DataSet~.)
+```
+
+* Non-Pocillopora individual transects
+
+```{r}
+#Pocillopora cover (raw data =  check transects)
+
+Other_raw <- ggplot(cover, aes(x=YR, y=Other)) +
+  stat_summary(fun.y=mean, geom="line", size=2 ) +
+  geom_line(aes(colour=Transect))+
+  geom_point(aes(colour=Transect))+
+  
+  scale_y_continuous("Other scleractinians cover (%)",
+                     limits = c(0, 15), breaks = seq(0, 15, by=5), expand = c(0,0))+
+  scale_x_continuous("", limits = c(1979, 2019),
+                     breaks = seq(1980, 2018, by=2), expand = c(0,0))+
+  #scale_color_manual(values=my_colours) + labs(title="b")+
+  #annotate("text", x = 1983, y = 70, label = "*", size=8)+
+  annotate("rect", xmin = 1982, xmax = 1983, ymin = 0, ymax = 14,  alpha = .2, fill="red")+
+  annotate("rect", xmin = 1997, xmax = 1998, ymin = 0, ymax = 14,  alpha = .2, fill="red")+
+  annotate("rect", xmin = 2015, xmax = 2016, ymin = 0, ymax = 14,  alpha = .2, fill="red")
+Other_raw+facet_grid(DataSet~., scales = "free_y")
+```
+
+* Non-Pocillopora 1m2 data
+
+```{r}
+Other_raw_1m2 <- ggplot(data=subset(cover, DataSet=="Uva_1m2"), aes(x=YR, y=Other)) +
+  stat_summary(fun.y=mean, geom="line", size=2 ) +
+  geom_line(aes(colour=Transect))+
+  geom_point(aes(colour=Transect, shape=Transect), size=2)+
+  
+  scale_y_continuous("Other scleractinians cover (%)",
+                     limits = c(0, 15), breaks = seq(0, 15, by=5), expand = c(0,0))+
+  scale_x_continuous("", limits = c(1994, 2019),
+                     breaks = seq(1994, 2018, by=2), expand = c(0,0))+
+  #scale_color_manual(values=my_colours) + labs(title="b")+
+  #annotate("text", x = 1983, y = 70, label = "*", size=8)+
+  annotate("rect", xmin = 1982, xmax = 1983, ymin = 0, ymax = 14,  alpha = .2, fill="red")+
+  annotate("rect", xmin = 1997, xmax = 1998, ymin = 0, ymax = 14,  alpha = .2, fill="red")+
+  annotate("rect", xmin = 2015, xmax = 2016, ymin = 0, ymax = 14,  alpha = .2, fill="red")
+Other_raw_1m2+facet_grid(DataSet~., scales = "free_y")
+```
+
+#### *Millepora*
+
+* *Millepora* (individual transects) 
+
+```{r}
+Millepora.data<-subset(cover, DataSet !="4x5")
+Millepora.data<-subset(Millepora.data, DataSet !="Canal de Afuera-Reef")
+
+Millerpora_plot <- ggplot(Millepora.data, aes(x=YR, y=Millepora)) +
+  geom_point(aes(colour=Transect, shape=Transect))+ 
+  #geom_smooth(method = lm, se=FALSE, linetype = "dashed", colour="red")+
+  #geom_smooth(span = 0.2, se=T, colour="darkgray")+ 
+  
+  #geom_boxplot(aes(group=YR), outlier.shape = NA) +
+  #stat_boxplot(aes(group=YR), geom = 'errorbar')+
+  geom_line(aes(colour=Transect))+
+  geom_point(aes(colour=Transect, shape=Transect))+
+  
+  #geom_point(aes(colour=Thermal_regime), alpha=0.5) + ylim(0,79) +
+  scale_y_continuous("Millepora cover (%)", expand = c(0.02,0.02))+
+  scale_x_continuous("", limits = c(1979, 2019),
+                     breaks = seq(1980, 2018, by=2), expand = c(0,0))+
+  theme(legend.position="bottom")+
+  annotate("rect", xmin = 1982, xmax = 1983, ymin = 0, ymax = 4,  alpha = .2, fill="red")+
+  annotate("rect", xmin = 1997, xmax = 1998, ymin = 0, ymax = 4,  alpha = .2, fill="red")+
+  annotate("rect", xmin = 2015, xmax = 2016, ymin = 0, ymax = 4,  alpha = .2, fill="red")
+Millerpora_plot+facet_grid(DataSet~., scales = "free_y")
+```
+
+## Long format
+
+```{r setup, include=FALSE}
+
+# Select data
+  cover_tall <- read.csv("All_Data_long.csv", header=TRUE) # Select file: Coral_Cover_ETP.csv
+  
+# Convert to numeric variable the response variable and convert to nominal variables the factors
+  cover_tall$Category <- as.factor(cover_tall$Category)
+  cover_tall$Cover <- as.numeric(cover_tall$Cover) # convert to numeric variable
+  
+  cover_tall$DataSet <- as.factor(cover_tall$DataSet)               # convert to nominal factors
+  cover_tall$Site <- as.factor(cover_tall$Site) 
+  
+  cover_tall$YR <- as.numeric(cover_tall$YR)
+  #cover$Year <- as.numeric((cover_tall$Year)-1970)  # transform years to begin in 0
+  summary(cover_tall)
+```
+
+### Explore
+
+* All categories % cover (mean)
+
+```{r}
+#Using raw data (Only thermal regime is significant in model)
+
+Cover_plot <- ggplot(data=subset(cover_tall, DataSet !="Canal de Afuera-Reef"), aes(x=YR, y=Cover, colour=Category)) +
+  stat_summary(fun.data = "mean_cl_boot",geom = "errorbar", width = 0.2) +
+  stat_summary(fun.y=mean, geom="point", size =2, alpha=0.5) +
+  
+  
+  #geom_smooth(method = lm, se=FALSE, linetype = "dashed")+
+  geom_smooth(span = 0.2, se=T)+ 
+  scale_y_continuous("Cover (%)", limits = c(-2, 90), 
+                     breaks = seq(0, 100, by=10), expand = c(0,0))+
+  scale_x_continuous("", limits = c(1979, 2019),
+                     breaks = seq(1980, 2018, by=2), expand = c(0,0))+
+  
+  theme(legend.position = c(0.1, 0.5))+
+  annotate("rect", xmin = 1982, xmax = 1983, ymin = 0, ymax = 90,  alpha = .1, fill="red")+
+  annotate("rect", xmin = 1997, xmax = 1998, ymin = 0, ymax = 90,  alpha = .1, fill="red")+
+  annotate("rect", xmin = 2015, xmax = 2016, ymin = 0, ymax = 90,  alpha = .1, fill="red")
+Cover_plot+facet_grid(DataSet~.)
+```
+
+
+* All categories log (% cover + 1)
+
+```{r}
+#Using raw data (Only thermal regime is significant in model)
+
+Cover_log <- ggplot(data=subset(cover_tall, DataSet !="Canal de Afuera-Reef"), aes(x=YR, y=log(1+Cover), 
+      group=Category, colour=Category)) +
+  stat_summary(fun.data = "mean_cl_boot",geom = "errorbar", width = 0.2) +
+  stat_summary(fun.y=mean, geom="point", size =2, alpha=0.8, shape=21) +
+  
+  
+  #geom_smooth(method = lm, se=FALSE, linetype = "dashed")+
+  geom_smooth(span = 0.2, se=F, alpha=0.5)+ 
+  scale_y_continuous("log(% Cover+1)", limits = c(-0.1, 6), 
+                     breaks = seq(0, 10, by=2), expand = c(0,0))+
+  scale_x_continuous("", limits = c(1979, 2019),
+                     breaks = seq(1980, 2018, by=2), expand = c(0,0))+
+  
+  theme(legend.position = c(0.1, 0.5))+
+  annotate("rect", xmin = 1982, xmax = 1983, ymin = 0, ymax = 6,  alpha = .1, fill="red")+
+  annotate("rect", xmin = 1997, xmax = 1998, ymin = 0, ymax = 6,  alpha = .1, fill="red")+
+  annotate("rect", xmin = 2015, xmax = 2016, ymin = 0, ymax = 6,  alpha = .1, fill="red")
+Cover_log+facet_grid(DataSet~.)
+```
+
+# Generalized Linear Mixed Model
+
+```{r}
+```
+
+
+# Packages used
+
+```{r}
+# Creates bibliography 
+# knitr::write_bib(c(.packages()), "packages.bib")
+```
