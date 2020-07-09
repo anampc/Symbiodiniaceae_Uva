@@ -23,7 +23,6 @@ knitr::opts_chunk$set(
 library(ggplot2)
 #library(gridExtra)
 
-
 theme_set (theme_bw() + theme(panel.grid.major = element_blank(),
                               panel.grid.minor = element_blank(), 
                               axis.line = element_line(colour = "black"),
@@ -37,10 +36,10 @@ theme_set (theme_bw() + theme(panel.grid.major = element_blank(),
 
 # Coral cover data 
 
+
 ## Wide format
 
 ```{r data, include=FALSE}
-
 # Select data
   cover <- read.csv("All_Data_Chiriqui.csv", header=TRUE) # Select file: Coral_Cover_ETP.csv
   
@@ -106,6 +105,7 @@ Pocillopora_raw <- ggplot(cover, aes(x=YR, y=Pocillopora)) +
 Pocillopora_raw+facet_grid(DataSet~., scales = "free_y")
 ```
 
+
 * *Pocillopora* 1m2 data
 
 ```{r}
@@ -127,6 +127,7 @@ Pocillopora_raw_1m2+ scale_x_continuous("", limits = c(2010, 2019),
                      breaks = seq(1993, 2018, by=2), expand = c(0,0))
 ```
 
+
 * *Pocillopora* chain data
 
 ```{r}
@@ -145,9 +146,11 @@ Pocillopora_raw_chains
 ```
 
 
+
 #### Non-Pocillopora scleractinians 
 
 * Coral cover (basic stats)
+
 
 ```{r}
 Other_plot <- ggplot(cover, aes(x=YR, y=Other)) +
@@ -191,6 +194,7 @@ Other_raw <- ggplot(cover, aes(x=YR, y=Other)) +
 Other_raw+facet_grid(DataSet~., scales = "free_y")
 ```
 
+
 * Non-Pocillopora 1m2 data
 
 ```{r}
@@ -210,6 +214,7 @@ Other_raw_1m2 <- ggplot(data=subset(cover, DataSet=="Uva_1m2"), aes(x=YR, y=Othe
   annotate("rect", xmin = 2015, xmax = 2016, ymin = 0, ymax = 14,  alpha = .2, fill="red")
 Other_raw_1m2+facet_grid(DataSet~., scales = "free_y")
 ```
+
 
 #### *Millepora*
 
@@ -239,6 +244,7 @@ Millerpora_plot <- ggplot(Millepora.data, aes(x=YR, y=Millepora)) +
   annotate("rect", xmin = 2015, xmax = 2016, ymin = 0, ymax = 4,  alpha = .2, fill="red")
 Millerpora_plot+facet_grid(DataSet~., scales = "free_y")
 ```
+
 
 ## Long format
 
@@ -288,6 +294,7 @@ Cover_plot+facet_grid(DataSet~.)
 
 * All categories log (% cover + 1)
 
+
 ```{r}
 #Using raw data (Only thermal regime is significant in model)
 
@@ -314,8 +321,8 @@ Cover_log+facet_grid(DataSet~.)
 # Generalized Linear Mixed Model
 
 ```{r}
-```
 
+```
 
 # Packages used
 
@@ -323,3 +330,4 @@ Cover_log+facet_grid(DataSet~.)
 # Creates bibliography 
 # knitr::write_bib(c(.packages()), "packages.bib")
 ```
+
