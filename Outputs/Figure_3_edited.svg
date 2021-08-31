@@ -11,7 +11,7 @@
    version="1.1"
    id="svg882"
    sodipodi:docname="Figure_3_edited.svg"
-   inkscape:version="0.92.3 (2405546, 2018-03-11)"
+   inkscape:version="0.92.5 (2060ec1f9f, 2020-04-08)"
    width="6in"
    height="5.5in"
    inkscape:export-filename="/home/mcano/Documents/WorkingRepos/Symbiodiniaceae_Uva/Outputs/Figure_3_edited.png"
@@ -38,15 +38,15 @@
      guidetolerance="10"
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
-     inkscape:window-width="1529"
-     inkscape:window-height="872"
+     inkscape:window-width="1844"
+     inkscape:window-height="1016"
      id="namedview884"
      showgrid="false"
-     inkscape:zoom="1"
-     inkscape:cx="278.39549"
-     inkscape:cy="236"
-     inkscape:window-x="1991"
-     inkscape:window-y="0"
+     inkscape:zoom="1.5"
+     inkscape:cx="382.08101"
+     inkscape:cy="269.33333"
+     inkscape:window-x="76"
+     inkscape:window-y="27"
      inkscape:window-maximized="1"
      inkscape:current-layer="svg882"
      units="in" />
@@ -1884,6 +1884,42 @@
          height="189.05"
          id="rect2107" />
     </clipPath>
+    <clipPath
+       id="cpMjA0LjI2fDMzMC41MnwxODkuOTl8MjQuMTY=">
+      <rect
+         x="204.25999"
+         y="24.16"
+         width="126.26"
+         height="165.84"
+         id="rect388" />
+    </clipPath>
+    <clipPath
+       id="cpMjA0LjI2fDMzMC41MnwxODkuOTl8MjQuMTY=-3">
+      <rect
+         x="204.25999"
+         y="24.16"
+         width="126.26"
+         height="165.84"
+         id="rect388-6" />
+    </clipPath>
+    <clipPath
+       id="cpMjA0LjI2fDMzMC41MnwxODkuOTl8MjQuMTY=-5">
+      <rect
+         x="204.25999"
+         y="24.16"
+         width="126.26"
+         height="165.84"
+         id="rect388-3" />
+    </clipPath>
+    <clipPath
+       id="cpMjA0LjI2fDMzMC41MnwxODkuOTl8MjQuMTY=-6">
+      <rect
+         x="204.25999"
+         y="24.16"
+         width="126.26"
+         height="165.84"
+         id="rect388-2" />
+    </clipPath>
   </defs>
   <defs
      id="defs11">
@@ -2189,30 +2225,6 @@
      style="fill:none;stroke:#0000cd;stroke-width:1.07000005;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:10"
      clip-path="url(#cpMjgwLjgzfDQ5OC41MnwyMzAuOTh8NDEuOTI=)"
      id="polyline110"
-     transform="translate(47,6)" />
-  <circle
-     cx="310.51001"
-     cy="115.84"
-     r="1.95pt"
-     style="fill:#0000cd;stroke:#0000cd;stroke-width:0.70999998;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10"
-     clip-path="url(#cpMjgwLjgzfDQ5OC41MnwyMzAuOTh8NDEuOTI=)"
-     id="circle112"
-     transform="translate(47,6)" />
-  <circle
-     cx="389.67001"
-     cy="164.60001"
-     r="1.95pt"
-     style="fill:#0000cd;stroke:#0000cd;stroke-width:0.70999998;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10"
-     clip-path="url(#cpMjgwLjgzfDQ5OC41MnwyMzAuOTh8NDEuOTI=)"
-     id="circle114"
-     transform="translate(47,6)" />
-  <circle
-     cx="468.84"
-     cy="182.7"
-     r="1.95pt"
-     style="fill:#0000cd;stroke:#0000cd;stroke-width:0.70999998;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10"
-     clip-path="url(#cpMjgwLjgzfDQ5OC41MnwyMzAuOTh8NDEuOTI=)"
-     id="circle116"
      transform="translate(47,6)" />
   <polyline
      points="310.51,115.84 389.67,164.60 468.84,182.70 "
@@ -3323,6 +3335,7 @@
        id="text874"><tspan
    style="font-style:italic"
    id="tspan4841">Durusdinium</tspan>
+
 -dominated</text>
   </g>
   <rect
@@ -3776,7 +3789,7 @@
          x="49"
          y="486"
          style="fill:none;stroke:#000000;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10" /></flowRegion><flowPara
-       id="flowPara1650"></flowPara></flowRoot>  <rect
+       id="flowPara1650" /></flowRoot>  <rect
      transform="translate(7.6199951,-7.9900208)"
      x="52.400002"
      y="305.92001"
@@ -4226,6 +4239,7 @@
        id="text567-7"><tspan
    style="font-style:italic"
    id="tspan2386">Cladocopium</tspan>
+
  to host cell ratio (C/H)</text>
   </g>
   <rect
@@ -4618,6 +4632,7 @@
        id="text822"><tspan
    style="font-style:italic"
    id="tspan2388">Durusdinium</tspan>
+
  to host cell ratio (D/H)</text>
   </g>
   <text
@@ -4632,15 +4647,15 @@
        y="480.03061"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:sans-serif;-inkscape-font-specification:sans-serif">n=<tspan
    style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:sans-serif;-inkscape-font-specification:sans-serif;fill:#0000cd;fill-opacity:1"
-   id="tspan1470-7-23">9</tspan>/<tspan
+   id="tspan1470-7-23">9,</tspan><tspan
    style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:sans-serif;-inkscape-font-specification:sans-serif;fill:#ff0000"
    id="tspan1468-5-7">6  </tspan>                  n=<tspan
    style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:sans-serif;-inkscape-font-specification:sans-serif;fill:#0000cd;fill-opacity:1"
-   id="tspan1472-3-5">9</tspan>/<tspan
+   id="tspan1472-3-5">9,</tspan><tspan
    style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:sans-serif;-inkscape-font-specification:sans-serif;fill:#ff0000"
    id="tspan1466-5-9">4  </tspan>                 n=<tspan
    style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:sans-serif;-inkscape-font-specification:sans-serif;fill:#0000cd;fill-opacity:1"
-   id="tspan1478-6-2">2</tspan>/<tspan
+   id="tspan1478-6-2">2,</tspan><tspan
    style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:sans-serif;-inkscape-font-specification:sans-serif;fill:#ff0000"
    id="tspan1464-2-2">7</tspan></tspan></text>
   <text
@@ -4655,15 +4670,33 @@
        y="480.03061"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:sans-serif;-inkscape-font-specification:sans-serif">n=<tspan
    style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:sans-serif;-inkscape-font-specification:sans-serif;fill:#0000cd;fill-opacity:1"
-   id="tspan1470-7-23-7">6</tspan>/<tspan
+   id="tspan1470-7-23-7">6,</tspan><tspan
    style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:sans-serif;-inkscape-font-specification:sans-serif;fill:#ff0000"
    id="tspan1468-5-7-3">14  </tspan>               n=<tspan
    style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:sans-serif;-inkscape-font-specification:sans-serif;fill:#0000cd;fill-opacity:1"
-   id="tspan1472-3-5-6">2</tspan>/<tspan
+   id="tspan1472-3-5-6">2,</tspan><tspan
    style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:sans-serif;-inkscape-font-specification:sans-serif;fill:#ff0000"
    id="tspan1466-5-9-1">14  </tspan>              n=<tspan
    style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:sans-serif;-inkscape-font-specification:sans-serif;fill:#0000cd;fill-opacity:1"
-   id="tspan1478-6-2-2">1</tspan>/<tspan
+   id="tspan1478-6-2-2">1,</tspan><tspan
    style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:sans-serif;-inkscape-font-specification:sans-serif;fill:#ff0000"
    id="tspan1464-2-2-9">21</tspan></tspan></text>
+  <polygon
+     points="319.61,49.69 322.24,45.13 324.87,49.69 "
+     style="fill:#0000cd;fill-opacity:1;stroke:#0000cd;stroke-width:0.70999998;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;stroke-dasharray:none;stroke-opacity:1"
+     clip-path="url(#cpMjA0LjI2fDMzMC41MnwxODkuOTl8MjQuMTY=)"
+     id="polygon503"
+     transform="matrix(1.44,0,0,1.296,-27.715589,107.85164)" />
+  <polygon
+     points="324.87,49.69 319.61,49.69 322.24,45.13 "
+     style="fill:#0000cd;fill-opacity:1;stroke:#0000cd;stroke-width:0.70999998;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;stroke-dasharray:none;stroke-opacity:1"
+     clip-path="url(#cpMjA0LjI2fDMzMC41MnwxODkuOTl8MjQuMTY=-3)"
+     id="polygon503-7"
+     transform="matrix(1.44,0,0,1.296,-106.64004,60.192178)" />
+  <polygon
+     points="324.87,49.69 319.61,49.69 322.24,45.13 "
+     style="fill:#0000cd;fill-opacity:1;stroke:#0000cd;stroke-width:0.70999998;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;stroke-dasharray:none;stroke-opacity:1"
+     clip-path="url(#cpMjA0LjI2fDMzMC41MnwxODkuOTl8MjQuMTY=-6)"
+     id="polygon503-9"
+     transform="matrix(1.44,0,0,1.296,51.307733,127.22328)" />
 </svg>
