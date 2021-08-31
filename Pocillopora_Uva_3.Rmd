@@ -958,8 +958,8 @@ Traject_ProportionITS2<- ggplot(data.Uva, aes (x=Year.2, y=D.Prp ,
 #Traject_ProportionITS2
 
 
-Figure_2_ITS2<-grid.arrange(Histo2014_DpropITS2, Traject_ProportionITS2,Histo2016_DpropITS2,
-nrow=1, widths=c(2/9, 5/9, 2/9))
+# Figure_2_ITS2<-grid.arrange(Histo2014_DpropITS2, Traject_ProportionITS2,Histo2016_DpropITS2,
+# nrow=1, widths=c(2/9, 5/9, 2/9))
 
 # ggsave(file="Outputs/Figure_ITS2.svg", plot=Figure_2_ITS2, width=6.5, height=5)
 
@@ -974,8 +974,8 @@ Histo2016_DpropITS2b<- Histo2016_DpropITS2 + facet_grid(ORF~.)
 
 Traject_ProportionITS2b<- Traject_ProportionITS2 + facet_grid(ORF~.)
 
-Figure_2_ITS2b<-grid.arrange(Histo2014_DpropITS2b, Traject_ProportionITS2b,Histo2016_DpropITS2b,
-nrow=1, widths=c(3/9, 3/9, 3/9))
+# Figure_2_ITS2b<-grid.arrange(Histo2014_DpropITS2b, Traject_ProportionITS2b,Histo2016_DpropITS2b,
+# nrow=1, widths=c(3/9, 3/9, 3/9))
 
 # ggsave(file="Outputs/Figure_2_ITS2b.svg", plot=Figure_2_ITS2b, width=7, height=4)
 
@@ -1051,8 +1051,8 @@ Traject_ProportionORF_a<- ggplot(data.Uva, aes (x=Year.2, y=D.Prp))+
   
    #Traject_ProportionORF
 
-Figure_2_ORF<-grid.arrange(Histo2014_DpropORF, Traject_ProportionORF, Histo2016_DpropORF,
-nrow=1, widths=c(3/9, 3/9, 3/9))
+# Figure_2_ORF<-grid.arrange(Histo2014_DpropORF, Traject_ProportionORF, Histo2016_DpropORF,
+# nrow=1, widths=c(3/9, 3/9, 3/9))
 
 # ggsave(file="Outputs/Figure_2_ORF.svg",plot=Figure_2_ORF, width=7, height=3.8, dpi=300)
 
@@ -1163,8 +1163,8 @@ Traject_ProportionITS2<- ggplot(data.Uva, aes (x=Year.2, y=D.Prp, group=(Colony)
 #Traject_ProportionITS2
 
 
-Figure_2_ITS2<-grid.arrange(Histo2014_DpropITS2, Traject_ProportionITS2,Histo2016_DpropITS2,
-nrow=1, widths=c(3/9, 3/9, 3/9))
+# Figure_2_ITS2<-grid.arrange(Histo2014_DpropITS2, Traject_ProportionITS2,Histo2016_DpropITS2,
+# nrow=1, widths=c(3/9, 3/9, 3/9))
 
 # ggsave(file="Outputs/Figure_ITS2_Mortality.svg", plot=Figure_2_ITS2, width=7, height=4)
 
@@ -1291,8 +1291,8 @@ Traject_ProportionITS2<- ggplot(data.Uva, aes (x=Year.2, y=D.Prp, group=(Colony)
 #Traject_ProportionITS2
 #ggsave(file="Outputs/Trajectory.svg", plot=Traject_ProportionITS2, width=6.5, height=3)
 
-Figure_2_ITS2<-grid.arrange(Histo2014_DpropITS2, Traject_ProportionITS2,Histo2016_DpropITS2,
-nrow=1, widths=c(2.5/9, 4/9, 2.5/9))
+# Figure_2_ITS2<-grid.arrange(Histo2014_DpropITS2, Traject_ProportionITS2,Histo2016_DpropITS2,
+# nrow=1, widths=c(2.5/9, 4/9, 2.5/9))
 
 # ggsave(file="Outputs/Figure_ITS2_Mortality2.svg", plot=Figure_2_ITS2, width=7, height=4)
 
