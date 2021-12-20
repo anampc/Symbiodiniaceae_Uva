@@ -11,6 +11,10 @@ README.html
 .Rproj.user
 *.jpg
 *.JPG
+*.eps
+*.svg
+*.ods
+
 /Documents/*
 /Coral_Cover_data/OriginalFiles/*
 Old/*
