@@ -1,20 +1,49 @@
-# R
+# R, rstudio and markdown
+# History files
 .Rhistory
 .Rapp.history
+
+# Output files from R CMD check
+/*.Rcheck/
+/rsconnect/*
+
+# RStudio files
+.Rproj.user
 .RData
 .Ruserdata
-.Rproj.user/
 *.Rproj
-# Outputs
-README.html
+
+# produced vignettes
+vignettes/*.html
+vignettes/*.pdf
+
+# knitr and R markdown default cache directories
+**/*_cache/
+**/cache/
+
+# Temporary files created by R markdown
+**/.utf8.md
+**/.knit.md
+
+# Other files
+.directory
+.dropbox
 .DS_Store
-.Rproj.user
+**/*.DS_Store*
+**/*.docx
+**/*.xls
+**/*.xlsx
+*.ods
+*.docx
 *.jpg
 *.JPG
+
+# .svg and .eps figures
+*.svg
+*.eps
+README.html
 *.eps
 *.svg
-*.ods
-
 /Documents/*
 /Coral_Cover_data/OriginalFiles/*
 Old/*
