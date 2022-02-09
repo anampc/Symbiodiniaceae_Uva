@@ -35,15 +35,12 @@ vignettes/*.pdf
 **/*.xlsx
 *.ods
 *.docx
+
+# Non-final Figures
+*.svg
+*.eps
 *.jpg
 *.JPG
 
-# .svg and .eps figures
-*.svg
-*.eps
-README.html
-*.eps
-*.svg
-/Documents/*
-/Coral_Cover_data/OriginalFiles/*
+
 Old/*
