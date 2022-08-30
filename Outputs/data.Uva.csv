@@ -1,0 +1,21 @@
+Count - Mortality,Data,,,,,,,,
+Shuffling,Almost total,No,Partial,(empty),Total Result,,,,
+C-not shuffle,4,1,2,,7,,,,
+C-only shuffled,2,,,,2,,,,
+D-already,,13,1,,14,,,,
+Mixed-shuffle,1,2,3,,6,,,,
+(empty),,,,,,,,,
+Total Result,7,16,6,,29,,,,
+,,,,,,,,,
+,,,,,,,,,
+Count - Mortality,Data,,,Total percentages,,,Inside community percentages,,
+Shuffling,Mortality,Survived,Total,Mortality,Survived,Total,Mortality,Survived,Total
+C-did not shuffle,4,3,7,13.8%,10.3%,24.1%,57.1%,42.9%,100.0%
+C-only shuffled,2,0,2,6.9%,0.0%,6.9%,100.0%,0.0%,100.0%
+C-only TOTAL,6,3,9,20.7%,10.3%,31.0%,66.7%,33.3%,100.0%
+,,,,,,,,,
+C-dominated→D dominated,1,5,6,3.4%,17.2%,20.7%,16.7%,83.3%,100.0%
+C-total,7,8,15,24.1%,27.6%,51.7%,,,
+,,,,,,,,,
+D-dominated 2014,,14,14,0.0%,48.3%,48.3%,0.0%,100.0%,100.0%
+Total Result,7,22,29,24.1%,75.9%,100.0%,24.1%,75.9%,100.0%

@@ -36,7 +36,7 @@ vignettes/*.pdf
 *.docx
 
 # Non-final Figures
-*.svg
+#*.svg
 *.eps
 *.jpg
 *.JPG
